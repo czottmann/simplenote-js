@@ -1,0 +1,4 @@
+jQuery.simplenote = ( function( $ ) {
+
+
+}( jQuery ) );
