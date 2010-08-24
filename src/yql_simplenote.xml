@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd">
+<table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
   <meta>
     <author>Carlo Zottmann</author>
     <description>Proxy SimpleNote POST requests</description>
@@ -25,7 +25,7 @@
         var myRequest = y.rest( "https://simple-note.appspot.com/api" + path );
         var data = myRequest.accept( "text/plain" ).
         contentType( "application/x-www-form-urlencoded" ).
-        post( postdata ).response;
+        post( y.crypto.encodeBase64( postdata ) ).response;
         response.object = data;
       ]]>
     </execute>
