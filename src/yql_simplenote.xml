@@ -2,11 +2,12 @@
 <table xmlns="http://query.yahooapis.com/v1/schema/table.xsd" https="true">
   <meta>
     <author>Carlo Zottmann</author>
-    <description>Proxy SimpleNote POST requests</description>
+    <description>Proxy SimpleNote requests</description>
     <sampleQuery><![CDATA[
-      select * from {table} where
+      SELECT * FROM {table} WHERE
       path='/login'
-      and postdata="[base64-encoded request parameters]"
+      AND data="[base64-encoded request parameters]"
+      AND method='[get/post]'
     ]]></sampleQuery>
     <documentationURL></documentationURL>
   </meta>
@@ -16,17 +17,34 @@
       <url>{url}</url>
     </urls>
     <inputs>
+      <key id="method" type="xs:string" default="get" paramType="variable"/>
       <key id="path" type="xs:string" required="true" paramType="variable"/>
-      <key id="postdata" type="xs:string" required="true" paramType="variable"/>
+      <key id="data" type="xs:string" required="true" paramType="variable"/>
     </inputs>
     <execute>
       <![CDATA[
         // whole table derived from http://www.wait-till-i.com/2009/11/16/using-yql-to-read-html-from-a-document-that-requires-post-data/
-        var myRequest = y.rest( "https://simple-note.appspot.com/api" + path );
-        var data = myRequest.accept( "text/plain" ).
-        contentType( "application/x-www-form-urlencoded" ).
-        post( y.crypto.encodeBase64( postdata ) ).response;
-        response.object = data;
+
+        var snRequest,
+          snSetup,
+          snData;
+          
+        if ( method === "post" ) {
+          snRequest = y.rest( "https://simple-note.appspot.com/api" + path );
+          snData = snRequest.accept( "text/plain, application/json" )
+            .contentType( "application/x-www-form-urlencoded" )
+            .post( y.crypto.encodeBase64( data ) )
+            .response;
+        }        
+        else {
+          snRequest = y.rest( "https://simple-note.appspot.com/api" + path + "?" + data );
+          snData = snRequest.accept( "text/plain, application/json" )
+            .contentType( "application/x-www-form-urlencoded" )
+            .get()
+            .response;
+        }
+
+        response.object = snData;
       ]]>
     </execute>
     </select>
