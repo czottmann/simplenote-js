@@ -217,48 +217,26 @@ function SimpleNote() {
 
 
   /**
-  * Calls the function passed as argument, and passes a clear text error
-  * string.  
+  * Returns an error code for a passed HTTP status.
   * 
-  * @method     _callErrorFunction
-  * @param      callback {Function} The error function to be called.
-  * @param      query {Object} The query object returned by YQL.
+  * @method     _getErrorCode
+  * @param      status {String} The HTTP status code returned by YQL.
   * @private
   */
 
-  function _callErrorFunction( callback, query ) {
-    if ( !!query.diagnostics && $.isArray( query.diagnostics.url ) ) {
-      switch( query.diagnostics.url[ 1 ][ "http-status-code" ] ) {
-        case "400":
-          callback( "bad_request" );
-          break;
+  function _getErrorCode( status ) {
+    var codes = {
+      "400": "bad_request",
+      "401": "unauthorized",
+      "403": "forbidden",
+      "404": "not_found",
+      "500": "server_error"
+    };
 
-        case "401":
-          _clearCredentials();
-          callback( "unauthorized" );
-          break;
-
-        case "403":
-          callback( "forbidden" );
-          break;
-
-        case "404":
-          callback( "not_found" );
-          break;
-
-        case "500":
-          callback( "server_error" );
-          break;
-
-        default:
-          callback( "unknown_error" );
-          break;
-      }
-    }
-    else {
-      callback( "unknown_error" );
-    }
-  }  // _callErrorFunction
+    status = String( status );
+    
+    return codes[ status ] || "unknown_error";
+  }  // _getErrorCode
  
 
   /**
@@ -317,29 +295,126 @@ function SimpleNote() {
       url: _getYQLURL( query ),
       context: this,
       success: function( data, status, req ) {
-        if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
-          log( "_authenticate success", data );
-          _email = config.email;
-          _token = $.trim( data.query.results.result );
-
-          config.success();
-        }
-        else {
+        var yqlStatus,
+          yqlStatusCode;
+        
+        if ( !data || !data.query || !data.query.results || !data.query.results.result ) {
           log( "_authenticate error #1", data );
           _clearCredentials();
-          _callErrorFunction( config.error, data.query );
+          config.error( "yql_error" );
+          return;
         }
+        
+        yqlStatus = data.query.results.result.status;
+        
+        if ( yqlStatus !== "200" ) {
+          yqlStatusCode = _getErrorCode( yqlStatus );
+
+          if ( yqlStatus === "401" ) {
+            _clearCredentials();
+          }
+
+          log( "_authenticate error #2", yqlStatusCode, data );
+          config.error( yqlStatusCode );
+          return;
+        }
+
+        log( "_authenticate success", data );
+        _email = config.email;
+        _token = $.trim( data.query.results.result.response );
+
+        config.success();
       },
       error: function( req, status, error ) {
-        log( "_authenticate error #2", req, status, error );
+        log( "_authenticate error #3", req, status, error );
 
         _clearCredentials();
-        _callErrorFunction( config.error, "unknown" );
+        config.error( "unknown" );
       },
-      dataType: "jsonp"
+      dataType: "jsonp",
+      scriptCharset: "utf-8"
     });
   }  // _authenticate
   
+  
+  /**
+  * Proxy method abstracting the YQL calls.
+  *
+  * @method     _makeYQLCall
+  * @param      caller {String} Name of the calling method.  Used for log
+  *             output.
+  * @param      query {String} The YQL query.
+  * @param      cbSuccess {Function} The on-success callback.
+  * @param      cbError {Function} The on-error callback.
+  * @param      context {Object} The context of the callbacks mentioned above.
+  * @private
+  */
+  
+  function _makeYQLCall( caller, query, cbSuccess, cbError, context ) {
+    $.ajax({
+      url: _getYQLURL( query ),
+      context: context,
+      success: function( data, status, req ) {
+        var yqlStatus,
+          yqlStatusCode,
+          res;
+        
+        if ( !data || !data.query || !data.query.results || !data.query.results.result ) {
+          log( caller + " error #1", data );
+          cbError( "yql_error" );
+          return;
+        }
+        
+        yqlStatus = data.query.results.result.status;
+        
+        if ( yqlStatus !== "200" ) {
+          yqlStatusCode = _getErrorCode( yqlStatus );
+
+          if ( yqlStatus === "401" ) {
+            _clearCredentials();
+          }
+
+          log( caller + " error #2", yqlStatusCode, data );
+          cbError( yqlStatusCode );
+          return;
+        }
+
+        log( caller + " success", data );
+        
+        res = data.query.results.result;
+        res.response = /^[\[\{]/.test( res.response ) ? $.parseJSON( res.response ) : res.response;
+
+        cbSuccess( res );
+      },
+      error: function( req, status, error ) {
+        log( caller + " error #3", req, status, error );
+        cbError( "unknown" );
+      },
+      dataType: "jsonp",
+      scriptCharset: "utf-8"
+    });
+  }
+  
+  
+  /**
+  * Checks if the passed argument is an object and has `error` and `success`
+  * keys which are functions.  Throws an `ArgumentError` exception on failure.
+  *
+  * @method     _validateRetrievalConfig
+  * @param      obj {Object} The object to validate.
+  * @private
+  */
+  
+  function _validateRetrievalConfig( obj ) {
+    if ( !$.isPlainObject( obj ) ) {
+      throw "ArgumentError: argument must be object";
+    }
+    
+    if ( !$.isFunction( obj.success ) || !$.isFunction( obj.error ) ) {
+      throw "ArgumentError: callbacks missing";
+    }
+  }
+
   
   /**
   * Returns an index of all notes.  This method will return a JSON object with
@@ -363,14 +438,7 @@ function SimpleNote() {
   
   function _retrieveIndex( obj ) {
     _throwUnlessLoggedIn();
-    
-    if ( !$.isPlainObject( obj ) ) {
-      throw "ArgumentError: argument must be object";
-    }
-    
-    if ( !$.isFunction( obj.success ) || !$.isFunction( obj.error ) ) {
-      throw "ArgumentError: callbacks missing";
-    }
+    _validateRetrievalConfig( obj );
 
     var query,
       config = $.extend({
@@ -393,23 +461,53 @@ function SimpleNote() {
     
     log( "_retrieveIndex", query );
     
-    $.ajax({
-      url: _getYQLURL( query ),
-      context: this,
-      success: function( data, status, req ) {
-        if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
-          config.success( $.parseJSON( data.query.results.result ) );
-        }
-        else {
-          _callErrorFunction( config.error, data.query );
-        }
-      },
-      error: function( req, status, error ) {
-        _callErrorFunction( config.error, "unknown" );
-      },
-      dataType: "jsonp"
-    });
+    function __cbSuccess( result ) {
+      config.success( result.response );
+    }
+    
+    _makeYQLCall( "_retrieveIndex", query, __cbSuccess, config.error, this );
   }  // _retrieveIndex
+
+
+  function _retrieveNote( obj ) {
+    _throwUnlessLoggedIn();
+    _validateRetrievalConfig( obj );
+
+    var query,
+      config = $.extend({
+        success: function( json ) {},
+        error: function( errorString ) {}
+      }, obj ),
+      yqlTable = _getYQLTableName();
+      
+    query = [
+      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
+      "SELECT * FROM ", yqlTable, " ",
+      "WHERE path='/note' ",
+      "AND data='",
+      $.param({
+        email: _email,
+        auth: _token,
+        key: config.key
+      }),
+      "'"
+    ].join( "" );
+    
+    log( "_retrieveNote", query );
+    
+    function __cbSuccess( result ) {
+      config.success({
+        body: result.response,
+        key: obj.key,
+        modifydate: result.headers[ "note-modifydate" ],
+        createdate: result.headers[ "note-createdate" ],
+        deleted: ( result.headers[ "note-deleted" ].toLowerCase() === "true" )
+      });
+    }
+    
+    _makeYQLCall( "_retrieveNote", query, __cbSuccess, config.error, this );
+
+  }  // _retrieveNote
 
 
   // ============ PUBLIC METHODS & PROPERTIES ================================
@@ -461,6 +559,11 @@ function SimpleNote() {
 
   this.retrieveIndex = function( obj ) {
     _retrieveIndex( obj );
+  };
+  
+  
+  this.retrieveNote = function( obj ) {
+    _retrieveNote( obj );
   };
   
   

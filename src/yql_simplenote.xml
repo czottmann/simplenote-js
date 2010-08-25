@@ -28,20 +28,26 @@
           
         if ( method === "post" ) {
           snRequest = y.rest( "https://simple-note.appspot.com/api" + path );
-          snData = snRequest.accept( "text/plain, application/json" )
+          snData = snRequest
+            .timeout( 5000 )
+            .accept( "text/plain, application/json" )
             .contentType( "application/x-www-form-urlencoded" )
-            .post( y.crypto.encodeBase64( data ) )
-            .response;
+            .post( y.crypto.encodeBase64( data ) );
         }        
         else {
           snRequest = y.rest( "https://simple-note.appspot.com/api" + path + "?" + data );
-          snData = snRequest.accept( "text/plain, application/json" )
+          snData = snRequest
+            .timeout( 5000 )
+            .accept( "text/plain, application/json" )
             .contentType( "application/x-www-form-urlencoded" )
-            .get()
-            .response;
+            .get();
         }
 
-        response.object = snData;
+        response.object = {
+          "response": snData.response,
+          "headers": snData.headers,
+          "status": snData.status
+        };
       ]]>
     </execute>
     </select>
