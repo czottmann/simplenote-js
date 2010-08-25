@@ -154,3 +154,30 @@ asyncTest( "should get index", 2, function() {
 // ------------------------
 
 
+module( "Miscellaneous", {
+  setup: function() {
+    this.SN = new SimpleNote();
+    this.SN.debugEnabled( true );
+    this.originalTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml";
+  }
+});
+
+
+test( "should report its version", function() {
+  ok( /^\d+\.\d+$/.test( this.SN._version ) );
+});
+
+
+test( "should report its default YQL Open Data table URL", function() {
+  equals( this.SN.getOpenDataTable(), this.originalTableURL, "pass" );
+});
+
+test( "should allow to set new YQL Open Data table URL", 2, function() {
+  var newURL = "http://example.com/new/table.xml";
+  
+  equals( this.SN.getOpenDataTable(), this.originalTableURL, "pass" );
+  this.SN.setOpenDataTable( "http://example.com/new/table.xml" );
+  equals( this.SN.getOpenDataTable(), newURL, "pass" );
+});
+
+
