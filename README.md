@@ -1,8 +1,8 @@
-# jquery-simplenote
+# simplenote-js
 
-A jQuery plugin wrapping the SimpleNote API.  Routes all requests through
+A JS wrapper for the SimpleNote API.  Routes all requests through
 [YQL](http://developer.yahoo.com/yql/) (via HTTPS) using the included
-Open Data table (see `src/` folder).
+Open Data table (see `src/` folder).  Needs jQuery.
 
 
 ## Usage
