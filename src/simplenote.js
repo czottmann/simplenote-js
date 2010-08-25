@@ -45,7 +45,6 @@
 function SimpleNote() {
 
   var $ = window.jQuery,
-    $this = this;
   
 
   /*
@@ -57,8 +56,8 @@ function SimpleNote() {
   * @private
   */
   
-  this._email = null;
-
+  _email = "",
+  
 
   /*
   * After a successful login, this variable holds the auth token required for
@@ -69,7 +68,7 @@ function SimpleNote() {
   * @private
   */
   
-  this._token = null;
+  _token = null,
   
   
   /*
@@ -80,7 +79,7 @@ function SimpleNote() {
   * @private
   */
   
-  this._baseURL = "https://simple-note.appspot.com/api";
+  _baseURL = "https://simple-note.appspot.com/api",
 
   
   /*
@@ -91,132 +90,123 @@ function SimpleNote() {
   * @private
   */
   
-  this._yqlTableURL = "http://dl.dropbox.com/u/7298/yql_simplenote.xml?";
+  _yqlTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml",
   
 
-  this.clearCredentials = function() {
-    this._email = "";
-    this._token = "";
-  };
+  /*
+  * Enables console output of debugging messages.
+  *
+  * @property   _debugEnabled
+  * @type       Boolean
+  * @default    false
+  * @private
+  */
+  
+  _debugEnabled = false;
+  
+  
+  // usage: log('inside coolFunc',this,arguments);
+  // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
+  function log() {
+    log.history = log.history || [];   // store logs to an array for reference
+    log.history.push( arguments );
+    if( window.console && _debugEnabled ) {
+      console.log( Array.prototype.slice.call( arguments ) );
+    }
+  }
+
+  
+  /*
+  * Deletes both `_email` and `_token` variables.
+  *
+  * @method     _clearCredentials
+  * @private
+  */
+  
+  function _clearCredentials() {
+    _email = "";
+    _token = "";
+  }
   
   
   /*
   * Returns a boolean showing whether the user is currently logged in or not.
   *
-  * @method     isLoggedIn
+  * @method     _isLoggedIn
   * @return     {Boolean}
   * @private
   */
   
-  this.isLoggedIn = function() {
-    return ( !!this._email && !!this._token );
-  };
+  function _isLoggedIn() {
+    return ( !!_email && !!_token );
+  }
 
 
   /*
   * Throws an exception if either the internal email or token aren't set
   * (which means the user's not logged in).
   *
-  * @method     throwUnlessLoggedIn
+  * @method     _throwUnlessLoggedIn
   * @private
   */
   
-  this.throwUnlessLoggedIn = function() {
-    if ( !this.isLoggedIn() ) {
+  function _throwUnlessLoggedIn() {
+    if ( !_isLoggedIn() ) {
       throw "AuthError";
     }
-  };
-  
+  }
+
 
   /*
-  * Authenticates the client.  The request is made asynchronously via YQL.
-  * Throws an exception if one of the arguments is missing or empty.
+  * Returns a random string used as YQL request table name.
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `email`: SimpleNote account email address
-  * * `password`: SimpleNote account password
-  * * `success`: callback function to be called on successful authentication
-  * * `error`: callback function to be called on failure, is passed a clear
-  *   text error string.
-  *
-  * Both `success` and `error` are strictly speaking optional; omitting them
-  * might be pointless, tho.
-  *
-  * @method     authenticate
-  * @param      config {Object} SimpleNote account email address, password,
-  *             callbacks
+  * @method     _getYQLTableName
   * @private
   */
   
-  this.authenticate = function( obj ) {
-    if ( !obj || !obj.email || !obj.password ) {
-      throw "ArgumentError: email and password required";
+  function _getYQLTableName() {
+    var a,
+      name = "";
+    
+    for ( a = 0; a < 10; a += 1 ) {
+      name += String.fromCharCode( 97 + Math.floor( Math.random( 26 ) * 26 ) );
     }
     
-    var query,
-      config = $.extend({
-        success: function() {
-          alert( "SimpleNote auth success" );
-        },
-        error: function( errorCode ) {
-          alert( "SimpleNote auth error: " + errorCode );
-        }
-      }, obj ),
-      yqlTable = this.getYQLTableName();
-      
-    query = [
-      "USE '", this._yqlTableURL, "' AS ", yqlTable, "; ",
-      "SELECT * FROM ", yqlTable, " ",
-      "WHERE path='/login' ",
-      "AND method='post' ",
-      "AND data='",
-      $.param({
-        email: config.email,
-        password: config.password
-      }),
-      "'"
+    name += String( Math.random() ).substr( -8 );
+    return name;
+  }
+
+  
+  /*
+  * Accepts a YQL query and returns the related YQL URL.
+  *
+  * @method     _getYQLURL
+  * @param      query {String} YQL query
+  * @private
+  */
+  
+  function _getYQLURL( query ) {
+    return [
+      "https://query.yahooapis.com/v1/public/yql?q=",
+      encodeURIComponent( query ),
+      "&diagnostics=true",
+      "&format=json",
+      "&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"
     ].join( "" );
-      
-    $.ajax({
-      url: this.getYQLURL( query ),
-      context: this,
-      success: function( data, status, req ) {
-        // console.log( data );
-        
-        if ( !!data && data.query && data.query.results && data.query.results.result !== "" ) {
-          this._email = config.email;
-          this._token = $.trim( data.query.results.result );
-
-          config.success();
-        }
-        else {
-          this.clearCredentials();
-          this.callErrorFunction( config.error, data.query );
-        }
-      },
-      error: function( req, status, error ) {
-        // console.warn( "error", req, status, error );
-
-        this.clearCredentials();
-        this.callErrorFunction( config.error, "unknown" );
-      },
-      dataType: "jsonp"
-    });
-  };  // this.authenticate
+  }
 
 
   /*
   * Calls the function passed as argument, and passes a clear text error
   * string.  
   * 
-  * @method     callErrorFunction
+  * @method     _callErrorFunction
   * @param      callback {Function} The error function to be called.
   * @param      query {Object} The query object returned by YQL.
   * @private
   */
 
-  this.callErrorFunction = function( callback, query ) {
+  function _callErrorFunction( callback, query ) {
     if ( !!query.diagnostics && $.isArray( query.diagnostics.url ) ) {
       switch( query.diagnostics.url[ 1 ][ "http-status-code" ] ) {
         case "400":
@@ -224,7 +214,7 @@ function SimpleNote() {
           break;
 
         case "401":
-          this.clearCredentials();
+          _clearCredentials();
           callback( "unauthorized" );
           break;
 
@@ -248,27 +238,87 @@ function SimpleNote() {
     else {
       callback( "unknown_error" );
     }
-  };  // this.callErrorFunction
-
+  }  // this.callErrorFunction
+ 
 
   /*
-  * Returns a random string used as YQL request table name.
+  * Authenticates the client.  The request is made asynchronously via YQL.
+  * Throws an exception if one of the arguments is missing or empty.
   *
-  * @method     getYQLTableName
+  * The method expects a configuration object with the following keys:
+  *
+  * * `email`: SimpleNote account email address
+  * * `password`: SimpleNote account password
+  * * `success`: callback function to be called on successful authentication
+  * * `error`: callback function to be called on failure, is passed a clear
+  *   text error string.
+  *
+  * Both `success` and `error` are strictly speaking optional; omitting them
+  * might be pointless, tho.
+  *
+  * @method     authenticate
+  * @param      config {Object} SimpleNote account email address, password,
+  *             callbacks
   * @private
   */
   
-  this.getYQLTableName = function() {
-    var a,
-      name = "";
-    
-    for ( a = 0; a < 10; a += 1 ) {
-      name += String.fromCharCode( 97 + Math.floor( Math.random( 26 ) * 26 ) );
+  function _authenticate( obj ) {
+    if ( !obj || !obj.email || !obj.password ) {
+      throw "ArgumentError: email and password required";
     }
     
-    name += String( Math.random() ).substr( -8 );
-    return name;
-  };
+    var query,
+      config = $.extend({
+        success: function() {
+          alert( "SimpleNote auth success" );
+        },
+        error: function( errorCode ) {
+          alert( "SimpleNote auth error: " + errorCode );
+        }
+      }, obj ),
+      yqlTable = _getYQLTableName();
+      
+    query = [
+      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
+      "SELECT * FROM ", yqlTable, " ",
+      "WHERE path='/login' ",
+      "AND method='post' ",
+      "AND data='",
+      $.param({
+        email: config.email,
+        password: config.password
+      }),
+      "'"
+    ].join( "" );
+    
+    log( "_authenticate", query );
+    
+    $.ajax({
+      url: _getYQLURL( query ),
+      context: this,
+      success: function( data, status, req ) {
+        log( "_authenticate success", data, status, req );
+        
+        if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
+          _email = config.email;
+          _token = $.trim( data.query.results.result );
+
+          config.success();
+        }
+        else {
+          _clearCredentials();
+          _callErrorFunction( config.error, data.query );
+        }
+      },
+      error: function( req, status, error ) {
+        log( "_authenticate error", req, status, error );
+
+        _clearCredentials();
+        _callErrorFunction( config.error, "unknown" );
+      },
+      dataType: "jsonp"
+    });
+  }  // this.authenticate
   
   
   /*
@@ -286,151 +336,146 @@ function SimpleNote() {
   * * `error`: callback function to be called on failure, is passed a clear
   *   text error string.
   *
-  * @method     getIndex
+  * @method     _getIndex
   * @param      config {Object} 
   * @private
   */
   
-  this.getIndex = function( obj ) {
+  function _getIndex( obj ) {
+    if ( !$.isPlainObject( obj ) ) {
+      throw "ArgumentError: argument must be object";
+    }
+    
     if ( !$.isFunction( obj.success ) || !$.isFunction( obj.error ) ) {
       throw "ArgumentError: callbacks missing";
     }
 
-    this.throwUnlessLoggedIn();
+    _throwUnlessLoggedIn();
     
     var query,
       config = $.extend({
         success: function( json ) {},
         error: function( errorString ) {}
       }, obj ),
-      yqlTable = this.getYQLTableName();
+      yqlTable = _getYQLTableName();
       
     query = [
-      "USE '", this._yqlTableURL, "' AS ", yqlTable, "; ",
+      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
       "SELECT * FROM ", yqlTable, " ",
       "WHERE path='/index' ",
       "AND data='",
       $.param({
-        email: this._email,
-        auth: this._token
+        email: _email,
+        auth: _token
       }),
       "'"
     ].join( "" );
     
     $.ajax({
-      url: this.getYQLURL( query ),
+      url: _getYQLURL( query ),
       context: this,
       success: function( data, status, req ) {
         if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
           config.success( $.parseJSON( data.query.results.result ) );
         }
         else {
-          this.callErrorFunction( config.error, data.query );
+          _callErrorFunction( config.error, data.query );
         }
       },
       error: function( req, status, error ) {
-        this.callErrorFunction( config.error, "unknown" );
+        _callErrorFunction( config.error, "unknown" );
       },
       dataType: "jsonp"
     });
-  };  // this.getIndex
+  }  // _getIndex
+
+
+
+  
+  /*
+  * Authenticates the client.  The request is made asynchronously via YQL.
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * The method expects a configuration object with the following keys:
+  *
+  * * `email`: SimpleNote account email address
+  * * `password`: SimpleNote account password
+  * * `success`: callback function to be called on successful authentication
+  * * `error`: callback function to be called on failure, is passed a clear
+  *   text error string.
+  *
+  * Both `success` and `error` are strictly speaking optional; omitting them
+  * might be pointless, tho.
+  *
+  * @method     auth
+  * @param      config {Object} SimpleNote account email address, password,
+  *             callbacks
+  */
+  
+  this.auth = function( config ) {
+    _authenticate( config );
+  };
   
   
   /*
-  * Accepts a YQL query and returns the related YQL URL.
+  * Returns a boolean showing whether the user is currently logged in or not.
   *
-  * @method     getYQLURL
-  * @param      query {String} YQL query
-  * @private
+  * @method     isLoggedIn
+  * @return     {Boolean}
+  */
+
+  this.isLoggedIn = function() {
+    return _isLoggedIn();
+  };
+    
+
+  /*
+  * Returns an index of all notes.  This method will return a JSON object with
+  * three main properties for each note: `key`, `modify`, and `deleted`.  Some
+  * notes may be marked `deleted`; these notes will be removed permanently
+  * the next time the client synchronizes with the server.
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * The method expects a configuration object with the following keys:
+  *
+  * * `success`: callback function to be called on success; the callback will
+  *   be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *   text error string.
+  *
+  * @method     getIndex
+  * @param      config {Object} 
+  */
+
+  this.getIndex = function( obj ) {
+    _getIndex( obj );
+  };
+  
+  
+  /*
+  * Enables console output of debugging messages.
+  *
+  * @method     debugEnabled
+  * @param      bool {Boolean} Enable/disable debugging.
   */
   
-  this.getYQLURL = function( query ) {
-    return [
-      "https://query.yahooapis.com/v1/public/yql?q=",
-      encodeURIComponent( query ),
-      "&diagnostics=true",
-      "&format=json",
-      "&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys"
-    ].join( "" );
+  this.debugEnabled = function( bool ) {
+    _debugEnabled = !!bool;
   };
-
-
-  return {
   
-    /*
-    * Authenticates the client.  The request is made asynchronously via YQL.
-    * Throws an exception if one of the arguments is missing or empty.
-    *
-    * The method expects a configuration object with the following keys:
-    *
-    * * `email`: SimpleNote account email address
-    * * `password`: SimpleNote account password
-    * * `success`: callback function to be called on successful authentication
-    * * `error`: callback function to be called on failure, is passed a clear
-    *   text error string.
-    *
-    * Both `success` and `error` are strictly speaking optional; omitting them
-    * might be pointless, tho.
-    *
-    * @method     auth
-    * @param      config {Object} SimpleNote account email address, password,
-    *             callbacks
-    */
-    
-    auth: function( config ) {
-      $this.authenticate( config );
+  
+  this.debug = {
+    showToken: function() {
+      return $.param({
+        auth: _token,
+        email: _email
+      });
     },
-    
-    
-    /*
-    * Returns a boolean showing whether the user is currently logged in or not.
-    *
-    * @method     isLoggedIn
-    * @return     {Boolean}
-    */
 
-    isLoggedIn: function() {
-      return $this.isLoggedIn();
-    },
-      
-
-    /*
-    * Returns an index of all notes.  This method will return a JSON object with
-    * three main properties for each note: `key`, `modify`, and `deleted`.  Some
-    * notes may be marked `deleted`; these notes will be removed permanently
-    * the next time the client synchronizes with the server.
-    *
-    * Throws an exception if one of the arguments is missing or empty.
-    *
-    * The method expects a configuration object with the following keys:
-    *
-    * * `success`: callback function to be called on success; the callback will
-    *   be passed the array containing the notes index
-    * * `error`: callback function to be called on failure, is passed a clear
-    *   text error string.
-    *
-    * @method     getIndex
-    * @param      config {Object} 
-    */
-
-    getIndex: function( obj ) {
-      $this.getIndex( obj );
-    },
-    
-    
-    debug: {
-      showToken: function() {
-        return $.param({
-          auth: $this._token,
-          email: $this._email
-        });
-      },
-
-      unsetEmail: function() {
-        $this._email = "";
-      }
+    unsetEmail: function() {
+      _email = "";
     }
-    
   };
   
 }
