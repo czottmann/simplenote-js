@@ -7,37 +7,40 @@
 /*global jQuery: false, window: false */
 "use strict";
 
+
 /*
- * (c) 2010 Carlo Zottmann
- * http://github.com/carlo/simplenote-js
- *
- * Permission is hereby granted, free of charge, to any person
- * obtaining a copy of this software and associated documentation
- * files (the "Software"), to deal in the Software without
- * restriction, including without limitation the rights to use,
- * copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following
- * conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
- * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
- * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
- * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
- * OTHER DEALINGS IN THE SOFTWARE.
+* (c) 2010 Carlo Zottmann
+* http://github.com/carlo/simplenote-js
+*
+* Permission is hereby granted, free of charge, to any person
+* obtaining a copy of this software and associated documentation
+* files (the "Software"), to deal in the Software without
+* restriction, including without limitation the rights to use,
+* copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the
+* Software is furnished to do so, subject to the following
+* conditions:
+*
+* The above copyright notice and this permission notice shall be
+* included in all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+* OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+* HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+* WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+* FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+* OTHER DEALINGS IN THE SOFTWARE.
 */
+
 
 /**
 * SimpleNote API wrapper module.
 *
 * @module     simplenote-js
 */
+
 
 /**
 * SimpleNote API wrapper class.
@@ -57,6 +60,7 @@ function SimpleNote() {
   *
   * @property   _VERSION
   * @type       String
+  * @final
   * @private
   */
   
@@ -123,12 +127,10 @@ function SimpleNote() {
   _debugEnabled = false;
   
   
-  // usage: log('inside coolFunc',this,arguments);
-  // paulirish.com/2009/log-a-lightweight-wrapper-for-consolelog/
   function log() {
     log.history = log.history || [];   // store logs to an array for reference
     log.history.push( arguments );
-    if( window.console && _debugEnabled ) {
+    if ( window.console && _debugEnabled ) {
       console.log( Array.prototype.slice.call( arguments ) );
     }
   }
@@ -256,7 +258,7 @@ function SimpleNote() {
     else {
       callback( "unknown_error" );
     }
-  }  // this.callErrorFunction
+  }  // _callErrorFunction
  
 
   /**
@@ -274,7 +276,7 @@ function SimpleNote() {
   * Both `success` and `error` are strictly speaking optional; omitting them
   * might be pointless, tho.
   *
-  * @method     authenticate
+  * @method     _authenticate
   * @param      config {Object} SimpleNote account email address, password,
   *             callbacks
   * @private
@@ -529,11 +531,11 @@ function SimpleNote() {
   /**
   * Returns the simplenote-js version number.
   *
-  * @property   _VERSION
+  * @property   _version
   * @type       String
   */
   
-  this._VERSION = ( function() {
+  this._version = ( function() {
     return _VERSION;
   }() );
   
