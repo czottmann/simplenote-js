@@ -17,7 +17,7 @@
 module( "Authentication", {
   setup: function() {
     this.SN = new SimpleNote();
-    this.SN.debugEnabled( true );
+    this.SN.enableDebug( true );
   },
   
   teardown: function() {
@@ -94,7 +94,7 @@ module( "Note Index", {
     var SN;
     
     this.SN = new SimpleNote();
-    this.SN.debugEnabled( true );
+    this.SN.enableDebug( true );
     SN = this.SN;
     
     stop( 3000 );
@@ -124,7 +124,7 @@ test( "shouldn't work with missing or faulty argument", 7, function() {
 
   $.each( configs, function( config ) {
     try {
-      SN.getIndex( config );
+      SN.retrieveIndex( config );
     }
     catch ( e ) {
       ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
@@ -138,7 +138,7 @@ asyncTest( "should get index", 2, function() {
 
   stop( 3000 );
 
-  SN.getIndex({
+  SN.retrieveIndex({
     success: function( data ) {
       ok( $.isArray( data ), "got index" );
       start();
@@ -158,7 +158,7 @@ test( "shouldn't work when not logged in", function() {
   var SN = new SimpleNote();
 
   try {
-    SN.getIndex({
+    SN.retrieveIndex({
       success: function() {},
       error: function() {}
     });
@@ -175,7 +175,7 @@ test( "shouldn't work when not logged in", function() {
 module( "Miscellaneous", {
   setup: function() {
     this.SN = new SimpleNote();
-    this.SN.debugEnabled( true );
+    this.SN.enableDebug( true );
     this.originalTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml";
   }
 });

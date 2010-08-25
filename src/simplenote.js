@@ -356,12 +356,12 @@ function SimpleNote() {
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
   *
-  * @method     _getIndex
+  * @method     _retrieveIndex
   * @param      config {Object} 
   * @private
   */
   
-  function _getIndex( obj ) {
+  function _retrieveIndex( obj ) {
     _throwUnlessLoggedIn();
     
     if ( !$.isPlainObject( obj ) ) {
@@ -391,7 +391,7 @@ function SimpleNote() {
       "'"
     ].join( "" );
     
-    log( "_getIndex", query );
+    log( "_retrieveIndex", query );
     
     $.ajax({
       url: _getYQLURL( query ),
@@ -409,7 +409,7 @@ function SimpleNote() {
       },
       dataType: "jsonp"
     });
-  }  // _getIndex
+  }  // _retrieveIndex
 
 
   // ============ PUBLIC METHODS & PROPERTIES ================================
@@ -441,18 +441,6 @@ function SimpleNote() {
   
   
   /**
-  * Returns a boolean showing whether the user is currently logged in or not.
-  *
-  * @method     isLoggedIn
-  * @return     {Boolean}
-  */
-
-  this.isLoggedIn = function() {
-    return _isLoggedIn();
-  };
-    
-
-  /**
   * Returns an index of all notes.  This method will return a JSON object with
   * three main properties for each note: `key`, `modify`, and `deleted`.  Some
   * notes may be marked `deleted`; these notes will be removed permanently
@@ -467,15 +455,27 @@ function SimpleNote() {
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
   *
-  * @method     getIndex
+  * @method     retrieveIndex
   * @param      config {Object} 
   */
 
-  this.getIndex = function( obj ) {
-    _getIndex( obj );
+  this.retrieveIndex = function( obj ) {
+    _retrieveIndex( obj );
   };
   
   
+  /**
+  * Returns a boolean showing whether the user is currently logged in or not.
+  *
+  * @method     isLoggedIn
+  * @return     {Boolean}
+  */
+
+  this.isLoggedIn = function() {
+    return _isLoggedIn();
+  };
+    
+
   /**
   * Returns auth details, i.e. an object containing the current email address
   * and auth token returned by the API after a successful login.
