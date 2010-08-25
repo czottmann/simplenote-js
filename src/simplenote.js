@@ -297,21 +297,21 @@ function SimpleNote() {
       url: _getYQLURL( query ),
       context: this,
       success: function( data, status, req ) {
-        log( "_authenticate success", data, status, req );
-        
         if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
+          log( "_authenticate success", data );
           _email = config.email;
           _token = $.trim( data.query.results.result );
 
           config.success();
         }
         else {
+          log( "_authenticate error #1", data );
           _clearCredentials();
           _callErrorFunction( config.error, data.query );
         }
       },
       error: function( req, status, error ) {
-        log( "_authenticate error", req, status, error );
+        log( "_authenticate error #2", req, status, error );
 
         _clearCredentials();
         _callErrorFunction( config.error, "unknown" );
