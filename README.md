@@ -41,7 +41,8 @@ successfully, go nuts.
 
 ## Author
 
-Carlo Zottmann, http://municode.de/, carlo@zottmann.org.  Nice to meet you.
+Carlo Zottmann, [municode.de](http://municode.de/), carlo@municode.de.  Nice
+to meet you.
 
 
 ## License
