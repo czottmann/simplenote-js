@@ -114,6 +114,21 @@ function SimpleNote() {
 
 
   /*
+  * Throws an exception if either the internal email or token aren't set
+  * (which means the user's not logged in).
+  *
+  * @method     throwUnlessLoggedIn
+  * @private
+  */
+  
+  this.throwUnlessLoggedIn = function() {
+    if ( !this.isLoggedIn() ) {
+      throw "AuthError";
+    }
+  };
+  
+
+  /*
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
@@ -209,6 +224,7 @@ function SimpleNote() {
           break;
 
         case "401":
+          this.clearCredentials();
           callback( "unauthorized" );
           break;
 
@@ -259,6 +275,8 @@ function SimpleNote() {
     if ( !$.isFunction( obj.success ) || !$.isFunction( obj.error ) ) {
       throw "ArgumentError: callbacks missing";
     }
+
+    this.throwUnlessLoggedIn();
     
     var query,
       config = $.extend({
@@ -283,8 +301,6 @@ function SimpleNote() {
       url: this.getYQLURL( query ),
       context: this,
       success: function( data, status, req ) {
-        // console.log( data );
-        
         if ( !!data && data.query && data.query.results && data.query.results.result !== "" && data.query.results.result !== "undefined" ) {
           config.success( $.parseJSON( data.query.results.result ) );
         }
@@ -293,9 +309,6 @@ function SimpleNote() {
         }
       },
       error: function( req, status, error ) {
-        // console.warn( "error", req, status, error );
-
-        this.clearCredentials();
         this.callErrorFunction( config.error, "unknown" );
       },
       dataType: "jsonp"
