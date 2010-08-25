@@ -362,6 +362,8 @@ function SimpleNote() {
   */
   
   function _getIndex( obj ) {
+    _throwUnlessLoggedIn();
+    
     if ( !$.isPlainObject( obj ) ) {
       throw "ArgumentError: argument must be object";
     }
@@ -370,8 +372,6 @@ function SimpleNote() {
       throw "ArgumentError: callbacks missing";
     }
 
-    _throwUnlessLoggedIn();
-    
     var query,
       config = $.extend({
         success: function( json ) {},
@@ -390,6 +390,8 @@ function SimpleNote() {
       }),
       "'"
     ].join( "" );
+    
+    log( "_getIndex", query );
     
     $.ajax({
       url: _getYQLURL( query ),
@@ -410,6 +412,7 @@ function SimpleNote() {
   }  // _getIndex
 
 
+  // ============ PUBLIC METHODS & PROPERTIES ================================
 
   
   /**
@@ -519,11 +522,11 @@ function SimpleNote() {
   /**
   * Enables console output of debugging messages.
   *
-  * @method     debugEnabled
+  * @method     enableDebug
   * @param      bool {Boolean} Enable/disable debugging.
   */
   
-  this.debugEnabled = function( bool ) {
+  this.enableDebug = function( bool ) {
     _debugEnabled = !!bool;
   };
 
