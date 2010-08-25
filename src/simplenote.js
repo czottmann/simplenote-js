@@ -60,7 +60,7 @@ function SimpleNote() {
   * @private
   */
   
-  _VERSION = "0.5",
+  _VERSION = "0.6",
   
   
   /**
