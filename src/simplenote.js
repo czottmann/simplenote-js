@@ -454,6 +454,22 @@ function SimpleNote() {
   
   
   /*
+  * Returns auth details, i.e. an object containing the current email address
+  * and auth token returned by the API after a successful login.
+  *
+  * @method     getAuthDetails
+  * @return     {Object} Auth info.
+  */
+  
+  this.getAuthDetails = function() {
+    return {
+      token: _token,
+      email: _email
+    };
+  };
+  
+  
+  /*
   * Enables console output of debugging messages.
   *
   * @method     debugEnabled
