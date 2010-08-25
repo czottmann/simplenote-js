@@ -1,3 +1,19 @@
+/*jslint adsafe: false, bitwise: true, browser: true, cap: false, css: false,
+  debug: false, devel: true, eqeqeq: true, es5: false, evil: false,
+  forin: false, fragment: false, immed: true, laxbreak: false, newcap: true,
+  nomen: false, on: false, onevar: true, passfail: false, plusplus: true,
+  regexp: false, rhino: true, safe: false, strict: false, sub: false,
+  undef: true, white: false, widget: false, windows: false */
+/*global jQuery: false, $: false, window: false, QUnit: false, expect: false,
+  ok: false, equals: false, same: false,  start: false, stop: false,
+  module: false, test: false, asyncTest: false, SimpleNote: false,
+  CREDENTIALS: false */
+"use strict";
+
+
+// ------------------------
+
+
 module( "Authentication", {
   setup: function() {
     this.SN = new SimpleNote();
@@ -23,9 +39,9 @@ test( "shouldn't work with missing credentials", 3, function() {
       SN.auth( config );
     }
     catch ( e ) {
-      ok( /^ArgumentError/.test( e ), "threw ArgumentError" )
+      ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
     }
-  })
+  });
 });
 
 
@@ -41,7 +57,6 @@ asyncTest( "shouldn't work with invalid credentials", 2, function() {
     error: function( code ) {
       var auth = SN.getAuthDetails();
       ok( ( !auth.email && !auth.token ), "auth info is empty" );
-
       ok( /bad_request|unauthorized/.test( code ), "couldn't authenticate (" + code + ")" );
       start();
     }
@@ -112,9 +127,9 @@ test( "shouldn't work with missing or faulty argument", 7, function() {
       SN.getIndex( config );
     }
     catch ( e ) {
-      ok( /^ArgumentError/.test( e ), "threw ArgumentError" )
+      ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
     }
-  })
+  });
 });
 
 
