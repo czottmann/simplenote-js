@@ -114,6 +114,18 @@ function SimpleNote() {
   
   _yqlTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml",
   
+  
+  /**
+  * Contains the table name used in YQL query.
+  *
+  * @property   _yqlTableName
+  * @type       String
+  * @final
+  * @private
+  */
+  
+  _yqlTableName = "simplenotejs" + ( new Date() ).getTime(),
+  
 
   /**
   * Enables console output of debugging messages.
@@ -177,26 +189,6 @@ function SimpleNote() {
   }
 
 
-  /**
-  * Returns a random string used as YQL request table name.
-  *
-  * @method     _getYQLTableName
-  * @private
-  */
-  
-  function _getYQLTableName() {
-    var a,
-      name = "";
-    
-    for ( a = 0; a < 10; a += 1 ) {
-      name += String.fromCharCode( 97 + Math.floor( Math.random( 26 ) * 26 ) );
-    }
-    
-    name += String( Math.random() ).substr( -8 );
-    return name;
-  }
-
-  
   /**
   * Accepts a YQL query and returns the related YQL URL.
   *
@@ -273,12 +265,11 @@ function SimpleNote() {
         error: function( errorCode ) {
           alert( "SimpleNote auth error: " + errorCode );
         }
-      }, obj ),
-      yqlTable = _getYQLTableName();
+      }, obj );
       
     query = [
-      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
-      "SELECT * FROM ", yqlTable, " ",
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/login' ",
       "AND method='post' ",
       "AND data='",
@@ -444,12 +435,11 @@ function SimpleNote() {
       config = $.extend({
         success: function( json ) {},
         error: function( errorString ) {}
-      }, obj ),
-      yqlTable = _getYQLTableName();
+      }, obj );
       
     query = [
-      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
-      "SELECT * FROM ", yqlTable, " ",
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/index' ",
       "AND data='",
       $.param({
@@ -477,12 +467,11 @@ function SimpleNote() {
       config = $.extend({
         success: function( json ) {},
         error: function( errorString ) {}
-      }, obj ),
-      yqlTable = _getYQLTableName();
+      }, obj );
       
     query = [
-      "USE '", _yqlTableURL, "' AS ", yqlTable, "; ",
-      "SELECT * FROM ", yqlTable, " ",
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/note' ",
       "AND data='",
       $.param({
