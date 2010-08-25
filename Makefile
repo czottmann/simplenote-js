@@ -26,4 +26,4 @@ update_version:
 	sed "s/ _VERSION = \".*\",/ _VERSION = \"${VERSION}\",/" src/simplenote.js > "src/simplenote.js.${VERSION}" \
 	  && mv src/simplenote.js.${VERSION} src/simplenote.js \
 	  && git commit -m "Version update: ${VERSION}." src/simplenote.js
-	
+
