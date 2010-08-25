@@ -271,6 +271,26 @@ function SimpleNote() {
   };
   
   
+  /*
+  * Returns an index of all notes.  This method will return a JSON object with
+  * three main properties for each note: `key`, `modify`, and `deleted`.  Some
+  * notes may be marked `deleted`; these notes will be removed permanently
+  * the next time the client synchronizes with the server.
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * The method expects a configuration object with the following keys:
+  *
+  * * `success`: callback function to be called on success; the callback will
+  *   be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *   text error string.
+  *
+  * @method     getIndex
+  * @param      config {Object} 
+  * @private
+  */
+  
   this.getIndex = function( obj ) {
     if ( !$.isFunction( obj.success ) || !$.isFunction( obj.error ) ) {
       throw "ArgumentError: callbacks missing";
@@ -313,7 +333,7 @@ function SimpleNote() {
       },
       dataType: "jsonp"
     });
-  };
+  };  // this.getIndex
   
   
   /*
@@ -357,8 +377,8 @@ function SimpleNote() {
     *             callbacks
     */
     
-    auth: function( email, password ) {
-      $this.authenticate( email, password );
+    auth: function( config ) {
+      $this.authenticate( config );
     },
     
     
@@ -373,6 +393,25 @@ function SimpleNote() {
       return $this.isLoggedIn();
     },
       
+
+    /*
+    * Returns an index of all notes.  This method will return a JSON object with
+    * three main properties for each note: `key`, `modify`, and `deleted`.  Some
+    * notes may be marked `deleted`; these notes will be removed permanently
+    * the next time the client synchronizes with the server.
+    *
+    * Throws an exception if one of the arguments is missing or empty.
+    *
+    * The method expects a configuration object with the following keys:
+    *
+    * * `success`: callback function to be called on success; the callback will
+    *   be passed the array containing the notes index
+    * * `error`: callback function to be called on failure, is passed a clear
+    *   text error string.
+    *
+    * @method     getIndex
+    * @param      config {Object} 
+    */
 
     getIndex: function( obj ) {
       $this.getIndex( obj );
