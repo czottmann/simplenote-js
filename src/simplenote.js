@@ -9,7 +9,7 @@
 
 /*
  * (c) 2010 Carlo Zottmann
- * http://github.com/carlo/jquery-simplenote
+ * http://github.com/carlo/simplenote-js
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation
@@ -33,13 +33,18 @@
  * OTHER DEALINGS IN THE SOFTWARE.
 */
 
+/**
+* SimpleNote API wrapper module.
+*
+* @module     simplenote-js
+*/
 
-/*
-* SimpleNote API wrapper.
+/**
+* SimpleNote API wrapper class.
 *
 * @class      SimpleNote
-* @requires   jQuery
-* @static
+* @requires   jquery
+* @constructor
 */
 
 function SimpleNote() {
@@ -47,7 +52,18 @@ function SimpleNote() {
   var $ = window.jQuery,
   
 
-  /*
+  /**
+  * The simplenote-js version number.
+  *
+  * @property   _VERSION
+  * @type       String
+  * @private
+  */
+  
+  _VERSION = "0.5",
+  
+  
+  /**
   * After a successful login, this variable holds the account email address
   * required for all subsequent API requests.
   *
@@ -59,7 +75,7 @@ function SimpleNote() {
   _email = "",
   
 
-  /*
+  /**
   * After a successful login, this variable holds the auth token required for
   * all subsequent API requests.
   *
@@ -68,32 +84,34 @@ function SimpleNote() {
   * @private
   */
   
-  _token = null,
+  _token = "",
   
   
-  /*
+  /**
   * Contains the base URL of the API.
   *
   * @property   _baseURL
   * @type       String
+  * @final
   * @private
   */
   
   _baseURL = "https://simple-note.appspot.com/api",
 
   
-  /*
+  /**
   * Contains the OpenData table used for all YQL calls.
   *
   * @property   _yqlTableURL
   * @type       String
+  * @default    http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml
   * @private
   */
   
   _yqlTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml",
   
 
-  /*
+  /**
   * Enables console output of debugging messages.
   *
   * @property   _debugEnabled
@@ -116,7 +134,7 @@ function SimpleNote() {
   }
 
   
-  /*
+  /**
   * Deletes both `_email` and `_token` variables.
   *
   * @method     _clearCredentials
@@ -129,7 +147,7 @@ function SimpleNote() {
   }
   
   
-  /*
+  /**
   * Returns a boolean showing whether the user is currently logged in or not.
   *
   * @method     _isLoggedIn
@@ -142,7 +160,7 @@ function SimpleNote() {
   }
 
 
-  /*
+  /**
   * Throws an exception if either the internal email or token aren't set
   * (which means the user's not logged in).
   *
@@ -157,7 +175,7 @@ function SimpleNote() {
   }
 
 
-  /*
+  /**
   * Returns a random string used as YQL request table name.
   *
   * @method     _getYQLTableName
@@ -177,7 +195,7 @@ function SimpleNote() {
   }
 
   
-  /*
+  /**
   * Accepts a YQL query and returns the related YQL URL.
   *
   * @method     _getYQLURL
@@ -196,7 +214,7 @@ function SimpleNote() {
   }
 
 
-  /*
+  /**
   * Calls the function passed as argument, and passes a clear text error
   * string.  
   * 
@@ -241,7 +259,7 @@ function SimpleNote() {
   }  // this.callErrorFunction
  
 
-  /*
+  /**
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
@@ -251,7 +269,7 @@ function SimpleNote() {
   * * `password`: SimpleNote account password
   * * `success`: callback function to be called on successful authentication
   * * `error`: callback function to be called on failure, is passed a clear
-  *   text error string.
+  *    text error string.
   *
   * Both `success` and `error` are strictly speaking optional; omitting them
   * might be pointless, tho.
@@ -318,10 +336,10 @@ function SimpleNote() {
       },
       dataType: "jsonp"
     });
-  }  // this.authenticate
+  }  // _authenticate
   
   
-  /*
+  /**
   * Returns an index of all notes.  This method will return a JSON object with
   * three main properties for each note: `key`, `modify`, and `deleted`.  Some
   * notes may be marked `deleted`; these notes will be removed permanently
@@ -332,9 +350,9 @@ function SimpleNote() {
   * The method expects a configuration object with the following keys:
   *
   * * `success`: callback function to be called on success; the callback will
-  *   be passed the array containing the notes index
+  *    be passed the array containing the notes index
   * * `error`: callback function to be called on failure, is passed a clear
-  *   text error string.
+  *    text error string.
   *
   * @method     _getIndex
   * @param      config {Object} 
@@ -392,7 +410,7 @@ function SimpleNote() {
 
 
   
-  /*
+  /**
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
@@ -402,7 +420,7 @@ function SimpleNote() {
   * * `password`: SimpleNote account password
   * * `success`: callback function to be called on successful authentication
   * * `error`: callback function to be called on failure, is passed a clear
-  *   text error string.
+  *    text error string.
   *
   * Both `success` and `error` are strictly speaking optional; omitting them
   * might be pointless, tho.
@@ -417,7 +435,7 @@ function SimpleNote() {
   };
   
   
-  /*
+  /**
   * Returns a boolean showing whether the user is currently logged in or not.
   *
   * @method     isLoggedIn
@@ -429,7 +447,7 @@ function SimpleNote() {
   };
     
 
-  /*
+  /**
   * Returns an index of all notes.  This method will return a JSON object with
   * three main properties for each note: `key`, `modify`, and `deleted`.  Some
   * notes may be marked `deleted`; these notes will be removed permanently
@@ -440,9 +458,9 @@ function SimpleNote() {
   * The method expects a configuration object with the following keys:
   *
   * * `success`: callback function to be called on success; the callback will
-  *   be passed the array containing the notes index
+  *    be passed the array containing the notes index
   * * `error`: callback function to be called on failure, is passed a clear
-  *   text error string.
+  *    text error string.
   *
   * @method     getIndex
   * @param      config {Object} 
@@ -453,7 +471,7 @@ function SimpleNote() {
   };
   
   
-  /*
+  /**
   * Returns auth details, i.e. an object containing the current email address
   * and auth token returned by the API after a successful login.
   *
@@ -469,7 +487,34 @@ function SimpleNote() {
   };
   
   
-  /*
+  /**
+  * Sets the Open Data table used in all YQL requests.  Usually, you'll want
+  * to put the Open Data table XML file (see `yql_simplenote.xml`) on a server
+  * controlled by you so you have full control over it.  If you do that, you
+  * can tell `SimpleNote` to use it by setting the new URL with this method.
+  *
+  * @method     setOpenDataTable
+  * @return     {String} Open Data Table URL.
+  */
+  
+  this.setOpenDataTable = function( url ) {
+    _yqlTableURL = url;
+  };
+  
+  
+  /**
+  * Returns the Open Data table used in all YQL requests.
+  *
+  * @method     getOpenDataTable
+  * @return     {String} Open Data Table URL.
+  */
+  
+  this.getOpenDataTable = function() {
+    return _yqlTableURL;
+  };
+  
+  
+  /**
   * Enables console output of debugging messages.
   *
   * @method     debugEnabled
@@ -479,6 +524,18 @@ function SimpleNote() {
   this.debugEnabled = function( bool ) {
     _debugEnabled = !!bool;
   };
+
+
+  /**
+  * Returns the simplenote-js version number.
+  *
+  * @property   _VERSION
+  * @type       String
+  */
+  
+  this._VERSION = ( function() {
+    return _VERSION;
+  }() );
   
   
   this.debug = {
