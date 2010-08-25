@@ -23,10 +23,7 @@
     </inputs>
     <execute>
       <![CDATA[
-        // whole table derived from http://www.wait-till-i.com/2009/11/16/using-yql-to-read-html-from-a-document-that-requires-post-data/
-
         var snRequest,
-          snSetup,
           snData;
           
         if ( method === "post" ) {
