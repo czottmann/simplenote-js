@@ -11,6 +11,7 @@ It's rather straightforward: first, authenticate, and if you've done so
 successfully, go nuts.
 
     var s = new SimpleNote();
+    s.debugEnabled( true );   // because we're curious
     s.auth({
       email: "test@example.com",
       password: "myPassword",
