@@ -151,6 +151,24 @@ asyncTest( "should get index", 2, function() {
 });
 
 
+module( "Note Index" );
+
+
+test( "shouldn't work when not logged in", function() {
+  var SN = new SimpleNote();
+
+  try {
+    SN.getIndex({
+      success: function() {},
+      error: function() {}
+    });
+  }
+  catch ( e ) {
+    ok( /^AuthError/.test( e ), "threw AuthError" );
+  }
+});
+
+
 // ------------------------
 
 
