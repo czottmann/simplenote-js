@@ -38,6 +38,7 @@ successfully, go nuts.
 ## Requirements
 
 * jQuery 1.4+
+* [jquery-base64](http://github.com/carlo/jquery-base64/)
 
 
 ## Author

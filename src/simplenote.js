@@ -51,7 +51,7 @@
 */
 
 function SimpleNote() {
-
+  
   var $ = window.jQuery,
   
 
@@ -137,6 +137,11 @@ function SimpleNote() {
   */
   
   _debugEnabled = false;
+  
+  
+  if ( !$.base64 ) {
+    throw "FATAL ERROR: jQuery.base64 is not available!";
+  }
   
   
   function log() {
@@ -273,10 +278,12 @@ function SimpleNote() {
       "WHERE path='/login' ",
       "AND method='post' ",
       "AND data='",
-      $.param({
-        email: config.email,
-        password: config.password
-      }),
+      $.base64.encode(
+        $.param({
+          email: config.email,
+          password: config.password
+        })
+      ),
       "'"
     ].join( "" );
     
@@ -449,10 +456,12 @@ function SimpleNote() {
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/index' ",
       "AND data='",
-      $.param({
-        email: _email,
-        auth: _token
-      }),
+      $.base64.encode(
+        $.param({
+          email: _email,
+          auth: _token
+        })
+      ),
       "'"
     ].join( "" );
     
@@ -511,12 +520,59 @@ function SimpleNote() {
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/note' ",
       "AND data='",
+      $.base64.encode(
+        $.param({
+          email: _email,
+          auth: _token,
+          key: config.key
+        })
+      ),
+      "'"
+    ].join( "" );
+    
+    log( "_retrieveNote", query );
+    
+    function __cbSuccess( result ) {
+      config.success({
+        body: result.response,
+        key: result.headers[ "note-key" ],
+        modifydate: result.headers[ "note-modifydate" ],
+        createdate: result.headers[ "note-createdate" ],
+        deleted: ( result.headers[ "note-deleted" ].toLowerCase() === "true" )
+      });
+    }
+    
+    _makeYQLCall( "_retrieveNote", query, __cbSuccess, config.error, this );
+
+  }  // _retrieveNote
+
+
+  function _createNote( obj ) {
+    _throwUnlessLoggedIn();
+    _validateRetrievalConfig( obj );
+
+    if ( !obj.key ) {
+      throw "ArgumentError: key is missing";
+    }
+
+    var query,
+      config = $.extend({
+        success: function( json ) {},
+        error: function( errorString ) {}
+      }, obj );
+      
+    query = [
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
+      "WHERE path='/note' ",
+      "AND data='",
       $.param({
         email: _email,
         auth: _token,
         key: config.key
       }),
-      "'"
+      "' ",
+      "AND method='post'"
     ].join( "" );
     
     log( "_retrieveNote", query );
