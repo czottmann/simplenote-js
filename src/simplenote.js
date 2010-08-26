@@ -422,6 +422,13 @@ function SimpleNote() {
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
   *
+  * The index will be returned as an array containing hashes.  The hashes
+  * contain the following keys:
+  *
+  * * `deleted`: true | false
+  * * `key`: the note ID
+  * * `modify`: a string containing the last-modified date
+  *
   * @method     _retrieveIndex
   * @param      config {Object} 
   * @private
@@ -517,7 +524,7 @@ function SimpleNote() {
     function __cbSuccess( result ) {
       config.success({
         body: result.response,
-        key: obj.key,
+        key: result.headers[ "note-key" ],
         modifydate: result.headers[ "note-modifydate" ],
         createdate: result.headers[ "note-createdate" ],
         deleted: ( result.headers[ "note-deleted" ].toLowerCase() === "true" )
@@ -529,7 +536,11 @@ function SimpleNote() {
   }  // _retrieveNote
 
 
+
+
   // ============ PUBLIC METHODS & PROPERTIES ================================
+
+
 
   
   /**
