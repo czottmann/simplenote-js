@@ -111,7 +111,7 @@ module( "Note Index", {
 });
 
 
-test( "shouldn't work with missing or faulty argument", 7, function() {
+test( "shouldn't retrieve index when called with missing or faulty argument", 7, function() {
   var SN = this.SN,
     configs = [
       undefined,
@@ -133,7 +133,7 @@ test( "shouldn't work with missing or faulty argument", 7, function() {
 });
 
 
-asyncTest( "should get index", 2, function() {
+asyncTest( "should retrieve index when logged in", 2, function() {
   var SN = this.SN;
 
   stop( 3000 );
@@ -189,6 +189,7 @@ test( "should report its version", function() {
 test( "should report its default YQL Open Data table URL", function() {
   equals( this.SN.getOpenDataTable(), this.originalTableURL, "pass" );
 });
+
 
 test( "should allow to set new YQL Open Data table URL", 2, function() {
   var newURL = "http://example.com/new/table.xml";
