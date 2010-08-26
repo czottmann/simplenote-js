@@ -11,3 +11,103 @@
 "use strict";
 
 
+module( "Note Updating", {
+  setup: function() {
+    var SN;
+    
+    this.SN = new SimpleNote();
+    this.SN.enableDebug( true );
+    SN = this.SN;
+    
+    stop( 3000 );
+
+    this.SN.auth({
+      email: FIXTURES.email,
+      password: FIXTURES.password,
+      success: function() {
+        ok( SN.isLoggedIn(), "authenticated" );
+        start();
+      }
+    });
+  }
+});
+
+
+test( "shouldn't retrieve note when called with missing or faulty argument", 13, function() {
+  var SN = this.SN,
+    configs = [
+      undefined,
+      {},
+      { error: $.noop, success: $.noop },
+      { body: "abc", success: $.noop },
+      { body: "abc", error: $.noop },
+      { error: $.noop, success: $.noop },
+      { success: $.noop },
+      { error: $.noop },
+      { body: "123" },
+      { body: "abc", error: 123, success: $.noop },
+      { body: "abc", error: $.noop, success: "abc" },
+      { body: null, error: $.noop, success: $.noop }
+    ];
+
+  _.each( configs, function( config ) {
+    try {
+      SN.createNote( config );
+    }
+    catch ( e ) {
+      ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
+    }
+  });
+});
+
+
+asyncTest( "should be able to create a note when called correctly", function() {
+  var SN = this.SN,
+    body1 = "simplenote-js test note\nthis is the note body",
+    body2 = "simplenote-js test note\nthis is the new note body";
+
+  stop( 9000 );
+
+  function _step2( noteID ) {
+    if ( _.isString( noteID ) && !_.isEmpty( noteID ) ) {
+      SN.updateNote({
+        body: body2,
+        key: noteID,
+        success: _step3,
+        error: function _error( code ) {
+          ok( false, "error occurred in _step2: " + code );
+          start();
+        }
+      });
+    }
+    else {
+      ok( false, "error occurred in _step2: weird-ass noteID '" + noteID + "'" );
+      start();
+    }
+  }
+  
+  function _step3( noteID ) {
+    SN.retrieveNote({
+      key: noteID,
+      success: function( note ) {
+        equals( note.body, body2, "note updated" );
+        start();
+      },
+      error: function _error( code ) {
+        ok( false, "error occurred in _step3: " + code );
+        start();
+      }
+    });
+  }
+
+  SN.createNote({
+    body: body1,
+    success: _step2,
+    error: function _error( code ) {
+      ok( false, "error occurred: " + code );
+      start();
+    }
+  });
+});
+
+
