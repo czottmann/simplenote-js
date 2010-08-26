@@ -472,16 +472,15 @@ function SimpleNote() {
 
 
   /**
-  * Returns notes containing a particular term.
+  * Returns notes containing a particular term.  Throws an exception if one of
+  * the arguments is missing or empty.
   *
   * This method will return a JSON object with two keys, `notes` (containing
   * an array with found notes) and `totalRecords` (showing the total number of
   * search results).
   *
-  * Each note is represented in an object containing two keys, `key` (the note
+  * Each note is represented as an object containing two keys, `key` (the note
   * ID) and `body` (the note string).
-  *
-  * Throws an exception if one of the arguments is missing or empty.
   *
   * The method expects a configuration object with the following keys:
   *
@@ -739,7 +738,8 @@ function SimpleNote() {
   *
   * * `key`: the ID of the note to update
   * * `permanently` (optional): set to `true` if you want to not only mark the
-  *    note as deleted on the server but to delete it right away
+  *    note as deleted on the server but to delete it right away (see SN API
+  *    docs)
   * * `success`: callback function to be called on success; the callback will
   *    be passed the note ID string
   * * `error`: callback function to be called on failure, is passed a clear
@@ -845,16 +845,15 @@ function SimpleNote() {
   
   
   /**
-  * Returns notes containing a particular term.
+  * Returns notes containing a particular term.  Throws an exception if one of
+  * the arguments is missing or empty.
   *
   * This method will return a JSON object with two keys, `notes` (containing
   * an array with found notes) and `totalRecords` (showing the total number of
   * search results).
   *
-  * Each note is represented in an object containing two keys, `key` (the note
+  * Each note is represented as an object containing two keys, `key` (the note
   * ID) and `body` (the note string).
-  *
-  * Throws an exception if one of the arguments is missing or empty.
   *
   * The method expects a configuration object with the following keys:
   *
@@ -956,7 +955,8 @@ function SimpleNote() {
   *
   * * `key`: the ID of the note to update
   * * `permanently` (optional): set to `true` if you want to not only mark the
-  *    note as deleted on the server but to delete it right away
+  *    note as deleted on the server but to delete it right away (see SN API
+  *    docs)
   * * `success`: callback function to be called on success; the callback will
   *    be passed the note ID string
   * * `error`: callback function to be called on failure, is passed a clear
