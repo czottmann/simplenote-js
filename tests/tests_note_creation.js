@@ -29,6 +29,17 @@ module( "Note Creation", {
         start();
       }
     });
+  },
+  
+  teardown: function() {
+    if ( this.SN.noteID ) {
+      this.SN.deleteNote({
+        key: this.SN.noteID,
+        permanently: true,
+        success: $.noop,
+        error: $.noop
+      });
+    }
   }
 });
 

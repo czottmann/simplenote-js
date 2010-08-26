@@ -29,6 +29,17 @@ module( "Note Updating", {
         start();
       }
     });
+  },
+
+  teardown: function() {
+    if ( this.SN.noteID ) {
+      this.SN.deleteNote({
+        key: this.SN.noteID,
+        permanently: true,
+        success: $.noop,
+        error: $.noop
+      });
+    }
   }
 });
 
@@ -74,6 +85,7 @@ asyncTest( "should be able to update a note when called correctly", function() {
       key: noteID,
       success: function( note ) {
         equals( note.body, body2, "note updated" );
+        SN.noteID = note.key;
         start();
       },
       error: function _error( code ) {
