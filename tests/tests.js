@@ -7,7 +7,7 @@
 /*global jQuery: false, $: false, window: false, QUnit: false, expect: false,
   ok: false, equals: false, same: false,  start: false, stop: false,
   module: false, test: false, asyncTest: false, SimpleNote: false,
-  CREDENTIALS: false */
+  CREDENTIALS: false, _: false */
 "use strict";
 
 
@@ -133,14 +133,24 @@ test( "shouldn't retrieve index when called with missing or faulty argument", 7,
 });
 
 
-asyncTest( "should retrieve index when logged in", 2, function() {
+asyncTest( "should retrieve valid index when logged in", 11, function() {
   var SN = this.SN;
 
   stop( 3000 );
 
   SN.retrieveIndex({
     success: function( data ) {
-      ok( $.isArray( data ), "got index" );
+      var first = data[ 0 ];
+        keys = _.keys( first );
+      
+      ok( _.isArray( data ), "got index" );
+
+      _.each( [ "deleted", "key", "modify" ], function( key ) {
+        ok( _.include( keys, key ), "first index element contains key '" + key + "'" );
+        equals( _.isUndefined( first[ key ] ), false, "key is undefined" );
+        equals( _.isNull( first[ key ] ), false, "key is null" );
+      });
+
       start();
     },
     error: function( code ) {
