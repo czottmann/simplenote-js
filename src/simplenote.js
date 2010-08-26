@@ -329,7 +329,7 @@ function SimpleNote() {
   
   
   /**
-  * Proxy method abstracting the YQL calls.
+  * Proxy method abstracting most YQL calls.
   *
   * @method     _makeYQLCall
   * @param      caller {String} Name of the calling method.  Used for log
@@ -459,9 +459,39 @@ function SimpleNote() {
   }  // _retrieveIndex
 
 
+  /**
+  * Retrieves and returns a single note as a hash in the following form:
+  *
+  *     {
+  *       body: "my example note",
+  *       key: agtzaW1wbG0LCxIETm90ZRjoBAw,
+  *       modifydate: "2008-12-18 04:04:20.554442",
+  *       createdate: "2008-12-18 04:04:20.554442",
+  *       deleted: false
+  *     }  
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the note ID
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     _retrieveNote
+  * @param      config {Object} 
+  * @private
+  */
+  
   function _retrieveNote( obj ) {
     _throwUnlessLoggedIn();
     _validateRetrievalConfig( obj );
+
+    if ( !obj.key ) {
+      throw "ArgumentError: key is missing";
+    }
 
     var query,
       config = $.extend({
@@ -551,6 +581,31 @@ function SimpleNote() {
   };
   
   
+  /**
+  * Retrieves and returns a single note as a hash in the following form:
+  *
+  *     {
+  *       body: "my example note",
+  *       key: agtzaW1wbG0LCxIETm90ZRjoBAw,
+  *       modifydate: "2008-12-18 04:04:20.554442",
+  *       createdate: "2008-12-18 04:04:20.554442",
+  *       deleted: false
+  *     }  
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the note ID
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     retrieveNote
+  * @param      config {Object} 
+  */
+
   this.retrieveNote = function( obj ) {
     _retrieveNote( obj );
   };
