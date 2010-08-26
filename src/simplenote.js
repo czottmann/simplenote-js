@@ -124,7 +124,7 @@ function SimpleNote() {
   * @private
   */
   
-  _yqlTableName = "simplenotejs" + ( new Date() ).getTime(),
+  _yqlTableName = "snjs" + ( new Date() ).getTime(),
   
 
   /**
@@ -278,12 +278,9 @@ function SimpleNote() {
       "WHERE path='/login' ",
       "AND method='post' ",
       "AND data='",
-      $.base64.encode(
-        $.param({
-          email: config.email,
-          password: config.password
-        })
-      ),
+        $.base64.encode(
+          $.param({ email: config.email, password: config.password })
+        ),
       "'"
     ].join( "" );
     
@@ -455,14 +452,7 @@ function SimpleNote() {
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/index' ",
-      "AND data='",
-      $.base64.encode(
-        $.param({
-          email: _email,
-          auth: _token
-        })
-      ),
-      "'"
+      "AND data='", $.param({ email: _email, auth: _token }), "'"
     ].join( "" );
     
     log( "_retrieveIndex", query );
@@ -492,7 +482,7 @@ function SimpleNote() {
   *
   * * `key`: the note ID
   * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
+  *    be passed the note hash
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
   *
@@ -519,15 +509,7 @@ function SimpleNote() {
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/note' ",
-      "AND data='",
-      $.base64.encode(
-        $.param({
-          email: _email,
-          auth: _token,
-          key: config.key
-        })
-      ),
-      "'"
+      "AND data='", $.param({ email: _email, auth: _token, key: config.key }), "'"
     ].join( "" );
     
     log( "_retrieveNote", query );
@@ -547,12 +529,29 @@ function SimpleNote() {
   }  // _retrieveNote
 
 
+  /**
+  * Creates a new note.  Returns the new note ID.  Throws an exception if one
+  * of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `body`: the note body
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     _createNote
+  * @param      config {Object} 
+  * @private
+  */
+  
   function _createNote( obj ) {
     _throwUnlessLoggedIn();
     _validateRetrievalConfig( obj );
 
-    if ( !obj.key ) {
-      throw "ArgumentError: key is missing";
+    if ( !obj.body ) {
+      throw "ArgumentError: body is missing";
     }
 
     var query,
@@ -564,32 +563,19 @@ function SimpleNote() {
     query = [
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
-      "WHERE path='/note' ",
-      "AND data='",
-      $.param({
-        email: _email,
-        auth: _token,
-        key: config.key
-      }),
-      "' ",
+      "WHERE path='/note?", $.param({ email: _email, auth: _token, body: config.body }), "' ",
+      "AND data='", $.base64.encode( obj.body ), "' ",
       "AND method='post'"
     ].join( "" );
     
-    log( "_retrieveNote", query );
+    log( "_createNote", query );
     
     function __cbSuccess( result ) {
-      config.success({
-        body: result.response,
-        key: result.headers[ "note-key" ],
-        modifydate: result.headers[ "note-modifydate" ],
-        createdate: result.headers[ "note-createdate" ],
-        deleted: ( result.headers[ "note-deleted" ].toLowerCase() === "true" )
-      });
+      config.success( result.response );
     }
     
-    _makeYQLCall( "_retrieveNote", query, __cbSuccess, config.error, this );
-
-  }  // _retrieveNote
+    _makeYQLCall( "_createNote", query, __cbSuccess, config.error, this );
+  }  // _createNote
 
 
 
@@ -665,7 +651,7 @@ function SimpleNote() {
   *
   * * `key`: the note ID
   * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
+  *    be passed the note hash
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
   *
@@ -675,6 +661,27 @@ function SimpleNote() {
 
   this.retrieveNote = function( obj ) {
     _retrieveNote( obj );
+  };
+  
+  
+  /**
+  * Creates a new note.  Returns the new note ID.  Throws an exception if one
+  * of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `body`: the note body
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     createNote
+  * @param      config {Object} 
+  */
+  
+  this.createNote = function( obj ) {
+    _createNote( obj );
   };
   
   

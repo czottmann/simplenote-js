@@ -11,3 +11,72 @@
 "use strict";
 
 
+module( "Note Creation", {
+  setup: function() {
+    var SN;
+    
+    this.SN = new SimpleNote();
+    this.SN.enableDebug( true );
+    SN = this.SN;
+    
+    stop( 3000 );
+
+    this.SN.auth({
+      email: FIXTURES.email,
+      password: FIXTURES.password,
+      success: function() {
+        ok( SN.isLoggedIn(), "authenticated" );
+        start();
+      }
+    });
+  }
+});
+
+
+test( "shouldn't retrieve note when called with missing or faulty argument", 13, function() {
+  var SN = this.SN,
+    configs = [
+      undefined,
+      {},
+      { error: $.noop, success: $.noop },
+      { body: "abc", success: $.noop },
+      { body: "abc", error: $.noop },
+      { error: $.noop, success: $.noop },
+      { success: $.noop },
+      { error: $.noop },
+      { body: "123" },
+      { body: "abc", error: 123, success: $.noop },
+      { body: "abc", error: $.noop, success: "abc" },
+      { body: null, error: $.noop, success: $.noop }
+    ];
+
+  _.each( configs, function( config ) {
+    try {
+      SN.createNote( config );
+    }
+    catch ( e ) {
+      ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
+    }
+  });
+});
+
+
+asyncTest( "should be able to create a note when called correctly", 2, function() {
+  var SN = this.SN;
+
+  stop( 3000 );
+
+  SN.createNote({
+    body: "simplenote-js test note\nthis is the note body",
+    success: function( data ) {
+      ok( _.isString( data ), "got note ID" );
+      start();
+    },
+    error: function( code ) {
+      ok( false, "error occurred: " + code );
+      start();
+    }
+  });
+});
+
+

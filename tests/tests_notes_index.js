@@ -65,6 +65,8 @@ asyncTest( "should retrieve valid index when logged in", 11, function() {
       var first = data[ 0 ];
         keys = _.keys( first );
       
+      console.log( data );
+      
       ok( _.isArray( data ), "got index" );
 
       _.each( [ "deleted", "key", "modify" ], function( key ) {
