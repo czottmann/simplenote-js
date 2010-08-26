@@ -33,7 +33,7 @@ module( "Note Updating", {
 });
 
 
-test( "shouldn't retrieve note when called with missing or faulty argument", 13, function() {
+test( "shouldn't retrieve note when called with missing or faulty argument", 14, function() {
   var SN = this.SN,
     configs = [
       undefined,
@@ -47,12 +47,13 @@ test( "shouldn't retrieve note when called with missing or faulty argument", 13,
       { body: "123" },
       { body: "abc", error: 123, success: $.noop },
       { body: "abc", error: $.noop, success: "abc" },
+      { key: null, body: "abc", error: $.noop, success: $.noop },
       { body: null, error: $.noop, success: $.noop }
     ];
 
   _.each( configs, function( config ) {
     try {
-      SN.createNote( config );
+      SN.updateNote( config );
     }
     catch ( e ) {
       ok( /^ArgumentError/.test( e ), "threw ArgumentError" );
@@ -61,7 +62,7 @@ test( "shouldn't retrieve note when called with missing or faulty argument", 13,
 });
 
 
-asyncTest( "should be able to create a note when called correctly", function() {
+asyncTest( "should be able to update a note when called correctly", function() {
   var SN = this.SN,
     body1 = "simplenote-js test note\nthis is the note body",
     body2 = "simplenote-js test note\nthis is the new note body";
