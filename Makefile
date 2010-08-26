@@ -1,6 +1,7 @@
-.PHONY: docs jslint update_version
+.PHONY: docs jslint jslint_tests update_version
 
 DOCS_FOLDER=./docs
+TESTS_FOLDER=./tests
 YUIDOC_ROOT=../yuidoc
 YUIDOC_TMP=./docs/tmp
 JS_SRC=./src
@@ -17,6 +18,13 @@ docs:
 
 jslint:
 	@for F in $(JS_SRC)/*.js; do \
+	  echo "----- $$F\n"; \
+	  java -jar ~/bin/js.jar ~/bin/jslint.js $$F | grep -v "jslint: No problems"; \
+	done
+
+
+jslint_tests:
+	@for F in $(TESTS_FOLDER)/*.js; do \
 	  echo "----- $$F\n"; \
 	  java -jar ~/bin/js.jar ~/bin/jslint.js $$F | grep -v "jslint: No problems"; \
 	done
