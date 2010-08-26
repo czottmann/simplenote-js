@@ -43,7 +43,9 @@
         return;
       }
 
-      $.getScript( "./tests.js" );
+      _.each( [ "authentication", "note_creation", "note_deletion", "note_retrieval", "note_updating", "notes_index", "notes_search", "misc" ], function( testsBatch ) {
+        $.ajax({ url: "./tests_" + testsBatch + ".js", async: false, dataType: "script" });
+      });
     });
 
   </script>
