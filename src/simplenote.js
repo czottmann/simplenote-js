@@ -45,6 +45,9 @@
 /**
 * SimpleNote API wrapper class.
 *
+* Please note that the SimpleNote API expects everything to be UTF-8, and so
+* does simplenote-js.
+*
 * @class      SimpleNote
 * @requires   jquery
 * @constructor
@@ -535,7 +538,7 @@ function SimpleNote() {
   *
   * Expects a configuration object with the following keys:
   *
-  * * `body`: the note body
+  * * `body`: a string containing the note body
   * * `success`: callback function to be called on success; the callback will
   *    be passed the note ID string
   * * `error`: callback function to be called on failure, is passed a clear
@@ -563,7 +566,7 @@ function SimpleNote() {
     query = [
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
-      "WHERE path='/note?", $.param({ email: _email, auth: _token, body: config.body }), "' ",
+      "WHERE path='/note?", $.param({ email: _email, auth: _token }), "' ",
       "AND data='", $.base64.encode( obj.body ), "' ",
       "AND method='post'"
     ].join( "" );
@@ -576,6 +579,60 @@ function SimpleNote() {
     
     _makeYQLCall( "_createNote", query, __cbSuccess, config.error, this );
   }  // _createNote
+
+
+  /**
+  * Updates an existing note.  Returns the note ID on success.  Throws an
+  * exception if one of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the ID of the note to update
+  * * `body`: a string containing the note body
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     _updateNote
+  * @param      config {Object} 
+  * @private
+  */
+  
+  function _updateNote( obj ) {
+    _throwUnlessLoggedIn();
+    _validateRetrievalConfig( obj );
+
+    if ( !obj.body ) {
+      throw "ArgumentError: body is missing";
+    }
+
+    if ( !obj.key ) {
+      throw "ArgumentError: key is missing";
+    }
+
+    var query,
+      config = $.extend({
+        success: function( json ) {},
+        error: function( errorString ) {}
+      }, obj );
+      
+    query = [
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
+      "WHERE path='/note?", $.param({ email: _email, auth: _token, key: config.key }), "' ",
+      "AND data='", $.base64.encode( obj.body ), "' ",
+      "AND method='post'"
+    ].join( "" );
+    
+    log( "_updateNote", query );
+    
+    function __cbSuccess( result ) {
+      config.success( result.response );
+    }
+    
+    _makeYQLCall( "_updateNote", query, __cbSuccess, config.error, this );
+  }  // _updateNote
 
 
 
@@ -670,7 +727,7 @@ function SimpleNote() {
   *
   * Expects a configuration object with the following keys:
   *
-  * * `body`: the note body
+  * * `body`: a string containing the note body
   * * `success`: callback function to be called on success; the callback will
   *    be passed the note ID string
   * * `error`: callback function to be called on failure, is passed a clear
@@ -682,6 +739,28 @@ function SimpleNote() {
   
   this.createNote = function( obj ) {
     _createNote( obj );
+  };
+  
+  
+  /**
+  * Updates an existing note.  Returns the note ID on success.  Throws an
+  * exception if one of the arguments is missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the ID of the note to update
+  * * `body`: a string containing the note body
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     updateNote
+  * @param      config {Object} 
+  */
+  
+  this.updateNote = function( obj ) {
+    _updateNote( obj );
   };
   
   
