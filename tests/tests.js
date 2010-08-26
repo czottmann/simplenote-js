@@ -34,7 +34,7 @@ test( "shouldn't work with missing credentials", 3, function() {
       {}
     ];
 
-  $.each( configs, function( config ) {
+  _.each( configs, function( config ) {
     try {
       SN.auth( config );
     }
@@ -122,7 +122,7 @@ test( "shouldn't retrieve index when called with missing or faulty argument", 7,
       { error: 123 }
     ];
 
-  $.each( configs, function( config ) {
+  _.each( configs, function( config ) {
     try {
       SN.retrieveIndex( config );
     }
