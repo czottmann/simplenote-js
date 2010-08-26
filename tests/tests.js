@@ -7,7 +7,7 @@
 /*global jQuery: false, $: false, window: false, QUnit: false, expect: false,
   ok: false, equals: false, same: false,  start: false, stop: false,
   module: false, test: false, asyncTest: false, SimpleNote: false,
-  CREDENTIALS: false, _: false */
+  FIXTURES: false, _: false */
 "use strict";
 
 
@@ -70,8 +70,8 @@ asyncTest( "should work with valid credentials", 2, function() {
   stop( 3000 );
 
   SN.auth({
-    email: CREDENTIALS.email,
-    password: CREDENTIALS.password,
+    email: FIXTURES.email,
+    password: FIXTURES.password,
     success: function() {
       var auth = SN.getAuthDetails();
       ok( SN.isLoggedIn(), "authenticated" );
@@ -100,8 +100,8 @@ module( "Note Index", {
     stop( 3000 );
 
     this.SN.auth({
-      email: CREDENTIALS.email,
-      password: CREDENTIALS.password,
+      email: FIXTURES.email,
+      password: FIXTURES.password,
       success: function() {
         ok( SN.isLoggedIn(), "authenticated" );
         start();

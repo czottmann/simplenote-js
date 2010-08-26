@@ -31,14 +31,14 @@
   <script src="http://documentcloud.github.com/underscore/underscore-min.js" type="text/javascript"></script>
   <script src="http://github.com/jquery/qunit/raw/master/qunit/qunit.js" type="text/javascript"></script>
   <script src="../src/simplenote.js" type="text/javascript"></script>
-  <script src="../simplenote-credentials.js" type="text/javascript"></script>
+  <script src="../simplenote-fixtures.js" type="text/javascript"></script>
   
   <script type="text/javascript">
 
     $( document ).ready( function() {
-      if ( !window.CREDENTIALS ) {
+      if ( !window.FIXTURES ) {
         setTimeout( function() {
-          $( "#qunit-tests" ).html( "<li class='fail'><strong>Credentials file ../simplenote-credentials.js wasn't loaded!  Exiting.</strong></li>" );
+          $( "#qunit-tests" ).html( "<li class='fail'><strong>Fixtures file ../simplenote-fixtures.js wasn't loaded!  Exiting.</strong></li>" );
         }, 0 );
         return;
       }

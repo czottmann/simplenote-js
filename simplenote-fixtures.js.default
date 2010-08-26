@@ -1,0 +1,9 @@
+// Used for QUnit testing only.  If you want to run the tests, copy this file
+// to a new file called `simplenote-fixtures.js` and adjust your
+// credentials etc.
+
+window.FIXTURES = {
+  email: "you@example.com",
+  password: "myPassword",
+  existingNoteKey: "aSimpleNoteKeyAlreadyInExistence"
+};
