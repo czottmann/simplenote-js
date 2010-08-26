@@ -40,6 +40,9 @@
   <script type="text/javascript">
 
     $( document ).ready( function() {
+      var testBatches = [ "authentication", "note_creation", "note_deletion", "note_retrieval", "note_updating", "notes_index", "notes_search", "misc" ],
+        hash = document.location.hash.replace( /^#/, "" );
+        
       if ( !window.FIXTURES ) {
         setTimeout( function() {
           $( "#qunit-tests" ).html( "<li class='fail'><strong>Fixtures file ../simplenote-fixtures.js wasn't loaded!  Exiting.</strong></li>" );
@@ -47,8 +50,12 @@
         return;
       }
 
-      _.each( [ "authentication", "note_creation", "note_deletion", "note_retrieval", "note_updating", "notes_index", "notes_search", "misc" ], function( testsBatch ) {
-        $.ajax({ url: "./tests_" + testsBatch + ".js", async: false, dataType: "script" });
+      if ( !_.isEmpty( hash ) ) {
+        testBatches = [ hash ];
+      }
+      
+      _.each( testBatches, function( testBatch ) {
+        $.ajax({ url: "./tests_" + testBatch + ".js", async: false, dataType: "script" });
       });
     });
 
