@@ -23,7 +23,7 @@ module( "Authentication", {
 });
 
 
-test( "shouldn't work with missing credentials", 3, function() {
+test( "shouldn't work with missing credentials", function() {
   var SN = this.SN,
     configs = [
       { email: "test@example.com" },

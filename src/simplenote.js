@@ -637,6 +637,63 @@ function SimpleNote() {
     _makeYQLCall( "_updateNote", query, __cbSuccess, config.error, this );
   }  // _updateNote
 
+  
+  /**
+  * Deletes an existing note.  Throws an exception if one of the arguments is
+  * missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the ID of the note to update
+  * * `permanently` (optional): set to `true` if you want to not only mark the
+  *    note as deleted on the server but to delete it right away
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     _deleteNote
+  * @param      config {Object} 
+  * @private
+  */
+  
+  function _deleteNote( obj ) {
+    _throwUnlessLoggedIn();
+    _validateRetrievalConfig( obj );
+
+    if ( !obj.key ) {
+      throw "ArgumentError: key is missing";
+    }
+
+    var query,
+      config = $.extend({
+        success: function( json ) {},
+        error: function( errorString ) {}
+      }, obj );
+      
+    query = [
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
+      "WHERE path='/delete' ",
+      "AND data='",
+      $.param({
+        email: _email,
+        auth: _token,
+        key: config.key,
+        dead: ( config.permanently === true ) ? "1" : ""
+      }),
+      "' "
+    ].join( "" );
+    
+    log( "_deleteNote", query );
+    
+    function __cbSuccess( result ) {
+      config.success( $.trim( result.response ) );
+    }
+    
+    _makeYQLCall( "_deleteNote", query, __cbSuccess, config.error, this );
+  }  // _deleteNote
+
 
 
 
@@ -764,6 +821,29 @@ function SimpleNote() {
   
   this.updateNote = function( obj ) {
     _updateNote( obj );
+  };
+  
+  
+  /**
+  * Deletes an existing note.  Throws an exception if one of the arguments is
+  * missing or empty.
+  *
+  * Expects a configuration object with the following keys:
+  *
+  * * `key`: the ID of the note to update
+  * * `permanently` (optional): set to `true` if you want to not only mark the
+  *    note as deleted on the server but to delete it right away
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the note ID string
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     deleteNote
+  * @param      config {Object} 
+  */
+  
+  this.deleteNote = function( obj ) {
+    _deleteNote( obj );
   };
   
   

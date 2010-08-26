@@ -33,7 +33,7 @@ module( "Note Retrieval", {
 });
 
 
-test( "shouldn't retrieve note when called with missing or faulty argument", 13, function() {
+test( "shouldn't retrieve note when called with missing or faulty argument", function() {
   var SN = this.SN,
     configs = [
       undefined,
@@ -61,7 +61,7 @@ test( "shouldn't retrieve note when called with missing or faulty argument", 13,
 });
 
 
-asyncTest( "should be able to retrieve an existing note when called correctly", 17, function() {
+asyncTest( "should be able to retrieve an existing note when called correctly", function() {
   var SN = this.SN;
 
   stop( 3000 );

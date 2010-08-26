@@ -33,7 +33,7 @@ module( "Notes Index", {
 });
 
 
-test( "shouldn't retrieve index when called with missing or faulty argument", 7, function() {
+test( "shouldn't retrieve index when called with missing or faulty argument", function() {
   var SN = this.SN,
     configs = [
       undefined,
@@ -55,14 +55,14 @@ test( "shouldn't retrieve index when called with missing or faulty argument", 7,
 });
 
 
-asyncTest( "should retrieve valid index when logged in", 11, function() {
+asyncTest( "should retrieve valid index when logged in", function() {
   var SN = this.SN;
 
   stop( 3000 );
 
   SN.retrieveIndex({
     success: function( data ) {
-      var first = data[ 0 ];
+      var first = data[ 0 ],
         keys = _.keys( first );
       
       ok( _.isArray( data ), "got index" );

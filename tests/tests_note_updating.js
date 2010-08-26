@@ -33,7 +33,7 @@ module( "Note Updating", {
 });
 
 
-test( "shouldn't retrieve note when called with missing or faulty argument", 14, function() {
+test( "shouldn't retrieve note when called with missing or faulty argument", function() {
   var SN = this.SN,
     configs = [
       undefined,
@@ -69,6 +69,20 @@ asyncTest( "should be able to update a note when called correctly", function() {
 
   stop( 9000 );
 
+  function _step3( noteID ) {
+    SN.retrieveNote({
+      key: noteID,
+      success: function( note ) {
+        equals( note.body, body2, "note updated" );
+        start();
+      },
+      error: function _error( code ) {
+        ok( false, "error occurred in _step3: " + code );
+        start();
+      }
+    });
+  }
+
   function _step2( noteID ) {
     if ( _.isString( noteID ) && !_.isEmpty( noteID ) ) {
       SN.updateNote({
@@ -87,20 +101,6 @@ asyncTest( "should be able to update a note when called correctly", function() {
     }
   }
   
-  function _step3( noteID ) {
-    SN.retrieveNote({
-      key: noteID,
-      success: function( note ) {
-        equals( note.body, body2, "note updated" );
-        start();
-      },
-      error: function _error( code ) {
-        ok( false, "error occurred in _step3: " + code );
-        start();
-      }
-    });
-  }
-
   SN.createNote({
     body: body1,
     success: _step2,

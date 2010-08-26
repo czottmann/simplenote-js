@@ -33,7 +33,7 @@ module( "Note Creation", {
 });
 
 
-test( "shouldn't retrieve note when called with missing or faulty argument", 13, function() {
+test( "shouldn't retrieve note when called with missing or faulty argument", function() {
   var SN = this.SN,
     configs = [
       undefined,
