@@ -380,7 +380,10 @@ function SimpleNote() {
         log( caller + " success", data );
         
         res = data.query.results.result;
-        res.response = /^[\[\{]/.test( res.response ) ? $.parseJSON( res.response ) : res.response;
+        
+        if ( typeof res.response === "string" ) {
+          res.response = /^[\[\{]/.test( res.response ) ? $.parseJSON( res.response ) : res.response;
+        }
 
         cbSuccess( res );
       },
@@ -468,6 +471,96 @@ function SimpleNote() {
   }  // _retrieveIndex
 
 
+  /**
+  * Returns notes containing a particular term.
+  *
+  * This method will return a JSON object with two keys, `notes` (containing
+  * an array with found notes) and `totalRecords` (showing the total number of
+  * search results).
+  *
+  * Each note is represented in an object containing two keys, `key` (the note
+  * ID) and `body` (the note string).
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * The method expects a configuration object with the following keys:
+  *
+  * * `query`: search string
+  * * `maxResults` (optional): max number of results (default: 10)
+  * * `offset` (optional): index offset
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     _searchNotes
+  * @param      config {Object} 
+  * @private
+  */
+
+  function _searchNotes( obj ) {
+    _throwUnlessLoggedIn();
+    _validateRetrievalConfig( obj );
+
+    if ( !obj.query ) {
+      throw "ArgumentError: query is missing";
+    }
+
+    var query,
+      config = $.extend({
+        success: function( json ) {},
+        error: function( errorString ) {}
+      }, obj );
+
+    config.query = $.trim( config.query );
+    
+    if ( typeof config.maxResults !== "number" ) {
+      config.maxResults = 10;
+    }
+
+    if ( typeof config.offset !== "number" ) {
+      config.offset = 0;
+    }
+
+    query = [
+      "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
+      "SELECT * FROM ", _yqlTableName, " ",
+      "WHERE path='/search' ",
+      "AND data='",
+      $.param({
+        email: _email,
+        auth: _token,
+        query: config.query,
+        results: config.maxResults,
+        offset: config.offset
+      }), "'"
+    ].join( "" );
+    
+    log( "_searchNotes", query );
+    
+    function __cbSuccess( result ) {
+      var res = result.response.Response,
+        numResults = res.Results.length,
+        i,
+        hash = {
+          totalRecords: Number( res.totalRecords ),
+          notes: []
+        };
+      
+      for ( i = 0; i < numResults; i += 1 ) {
+        hash.notes.push({
+          key: res.Results[ i ].key,
+          body: res.Results[ i ].content
+        });
+      }
+
+      config.success( hash );
+    }
+    
+    _makeYQLCall( "_searchNotes", query, __cbSuccess, config.error, this );
+  }
+  
+  
   /**
   * Retrieves and returns a single note as a hash in the following form:
   *
@@ -748,6 +841,37 @@ function SimpleNote() {
 
   this.retrieveIndex = function( obj ) {
     _retrieveIndex( obj );
+  };
+  
+  
+  /**
+  * Returns notes containing a particular term.
+  *
+  * This method will return a JSON object with two keys, `notes` (containing
+  * an array with found notes) and `totalRecords` (showing the total number of
+  * search results).
+  *
+  * Each note is represented in an object containing two keys, `key` (the note
+  * ID) and `body` (the note string).
+  *
+  * Throws an exception if one of the arguments is missing or empty.
+  *
+  * The method expects a configuration object with the following keys:
+  *
+  * * `query`: search string
+  * * `maxResults` (optional): max number of results (default: 10)
+  * * `offset` (optional): index offset
+  * * `success`: callback function to be called on success; the callback will
+  *    be passed the array containing the notes index
+  * * `error`: callback function to be called on failure, is passed a clear
+  *    text error string.
+  *
+  * @method     searchNotes
+  * @param      config {Object} 
+  */
+
+  this.searchNotes = function( obj ) {
+    _searchNotes( obj );
   };
   
   
