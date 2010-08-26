@@ -519,7 +519,7 @@ function SimpleNote() {
     
     function __cbSuccess( result ) {
       config.success({
-        body: result.response,
+        body: $.trim( result.response ),
         key: result.headers[ "note-key" ],
         modifydate: result.headers[ "note-modifydate" ],
         createdate: result.headers[ "note-createdate" ],
@@ -528,7 +528,6 @@ function SimpleNote() {
     }
     
     _makeYQLCall( "_retrieveNote", query, __cbSuccess, config.error, this );
-
   }  // _retrieveNote
 
 
@@ -562,19 +561,21 @@ function SimpleNote() {
         success: function( json ) {},
         error: function( errorString ) {}
       }, obj );
+    
+    config.body = $.trim( config.body );
       
     query = [
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/note?", $.param({ email: _email, auth: _token }), "' ",
-      "AND data='", $.base64.encode( obj.body ), "' ",
+      "AND data='", $.base64.encode( config.body ), "' ",
       "AND method='post'"
     ].join( "" );
     
     log( "_createNote", query );
     
     function __cbSuccess( result ) {
-      config.success( result.response );
+      config.success( $.trim( result.response ) );
     }
     
     _makeYQLCall( "_createNote", query, __cbSuccess, config.error, this );
@@ -617,18 +618,20 @@ function SimpleNote() {
         error: function( errorString ) {}
       }, obj );
       
+    config.body = $.trim( config.body );
+
     query = [
       "USE '", _yqlTableURL, "' AS ", _yqlTableName, "; ",
       "SELECT * FROM ", _yqlTableName, " ",
       "WHERE path='/note?", $.param({ email: _email, auth: _token, key: config.key }), "' ",
-      "AND data='", $.base64.encode( obj.body ), "' ",
+      "AND data='", $.base64.encode( config.body ), "' ",
       "AND method='post'"
     ].join( "" );
     
     log( "_updateNote", query );
     
     function __cbSuccess( result ) {
-      config.success( result.response );
+      config.success( $.trim( result.response ) );
     }
     
     _makeYQLCall( "_updateNote", query, __cbSuccess, config.error, this );
