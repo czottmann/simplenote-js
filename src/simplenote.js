@@ -1041,7 +1041,7 @@ function SimpleNote() {
   /**
   * Returns the simplenote-js version number.
   *
-  * @property   _version
+  * @property   _VERSION
   * @type       String
   * @final
   */
