@@ -5,6 +5,20 @@ A JS wrapper for the SimpleNote API.  Routes all requests through
 Open Data table (see `src/` folder).  Needs jQuery.
 
 
+## Regarding YQL
+
+All requests to the SimpleNote API are routed through YQL via HTTPS since 
+cross-domain POST requests aren't possible with AJAX.  For that, simplenote-js
+is making use of a custom Open Data table (see `src/yql_simplenote.xml`).  The
+default table URL is this GitHub project's
+[raw view of that file](http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml).
+It might be a good idea to host your own table XML somewhere to have more
+control over what is going on between YQL and SimpleNote API, and to be
+unaffected by changes to the table that might occur during future development
+and which may break functionality in case of a version mismatch between the
+JS library you're using and the table file in this here GitHub repository.
+
+
 ## Usage
 
 It's rather straightforward: first, authenticate, and if you've done so
@@ -146,7 +160,15 @@ Deleting a note:
     });
 
 
-    
+## Documentation
+
+The SimpleNote API documentation is available from the
+[SimpleNote API Google Groups page](http://groups.google.com/group/simplenote-api).
+
+The simplenote-js API documentation can be generated locally with YUIDoc (run
+`make docs` in the repo's root folder); the latest version is available online
+[here](#) (coming soon, I'm working on it).
+
     
 ## Requirements
 
