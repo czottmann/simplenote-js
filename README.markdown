@@ -170,7 +170,13 @@ The simplenote-js API documentation can be generated locally with YUIDoc (run
 `make docs` in the repo's root folder); the latest version is available online
 [here](http://carlo.github.com/simplenote-js/docs/).
 
-    
+
+## Tests
+
+There's a [QUnit](http://docs.jquery.com/QUnit)-based test suite
+(tests-in-`tests/` shocker!) with 130+ tests.
+
+
 ## Requirements
 
 * jQuery 1.4+
