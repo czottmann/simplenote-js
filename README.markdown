@@ -17,6 +17,7 @@ control over what is going on between YQL and SimpleNote API, and to be
 unaffected by changes to the table that might occur during future development
 and which may break functionality in case of a version mismatch between the
 JS library you're using and the table file in this here GitHub repository.
+(See `SimpleNote`'s `setOpenDataTable()` method for that.)
 
 
 ## Usage
@@ -167,7 +168,7 @@ The SimpleNote API documentation is available from the
 
 The simplenote-js API documentation can be generated locally with YUIDoc (run
 `make docs` in the repo's root folder); the latest version is available online
-[here](#) (coming soon, I'm working on it).
+[here](http://carlo.github.com/simplenote-js/docs/).
 
     
 ## Requirements

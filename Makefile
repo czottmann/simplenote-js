@@ -1,4 +1,4 @@
-.PHONY: docs jslint jslint_tests update_version
+.PHONY: docs
 
 DOCS_FOLDER=./docs
 TESTS_FOLDER=./tests
@@ -35,3 +35,21 @@ update_version:
 	  && mv src/simplenote.js.${VERSION} src/simplenote.js \
 	  && git commit -m "Version update: ${VERSION}." src/simplenote.js
 
+
+production_docs:
+	@echo "Switching to gh-pages branch...\n"
+	@git checkout gh-pages
+	@echo "Merging production branch...\n"
+	@git merge production
+	@if [[ "`git branch | grep '*' | sed 's/^\* //'`" == "gh-pages" ]]; then \
+	  echo "Unstaging and removing unwanted paths from the index...\n"; \
+	  git rm -r --cached --ignore-unmatch tests src docs; \
+	  find . -type f -depth 1 \( -not -name "*.js" \) -exec git rm --ignore-unmatch --cached "{}" \; ; \
+	  echo "Generating docs...\n"; \
+	  make docs; \
+	  echo "Documentation generated.\n"; \
+	  echo "Committing changes...\n"; \
+	  git add --ignore-errors docs index.html; \
+	  git commit -m "New docs generated for version `cat VERSION`." -a; \
+	  echo "DONE!\n"; \
+	fi
