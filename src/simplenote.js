@@ -539,12 +539,12 @@ function SimpleNote() {
     
     function __cbSuccess( result ) {
       var res = result.response.Response,
-        numResults = res.Results.length,
-        i,
         hash = {
           totalRecords: Number( res.totalRecords ),
           notes: []
-        };
+        },
+        numResults = ( hash.totalRecords > 0 ) ? res.Results.length : 0,
+        i;
       
       for ( i = 0; i < numResults; i += 1 ) {
         hash.notes.push({
