@@ -351,7 +351,6 @@ function SimpleNote() {
     
     log( "_authenticate", query );
     
-    
     function __cbSuccess( result ) {
       _email = config.email;
       _token = $.trim( result.response );
@@ -535,7 +534,7 @@ function SimpleNote() {
   *
   *     {
   *       body: "my example note",
-  *       key: agtzaW1wbG0LCxIETm90ZRjoBAw,
+  *       key: "agtzaW1wbG0LCxIETm90ZRjoBAw",
   *       modifydate: "2008-12-18 04:04:20.554442",
   *       createdate: "2008-12-18 04:04:20.554442",
   *       deleted: false
@@ -849,7 +848,7 @@ function SimpleNote() {
   *
   *     {
   *       body: "my example note",
-  *       key: agtzaW1wbG0LCxIETm90ZRjoBAw,
+  *       key: "agtzaW1wbG0LCxIETm90ZRjoBAw",
   *       modifydate: "2008-12-18 04:04:20.554442",
   *       createdate: "2008-12-18 04:04:20.554442",
   *       deleted: false
