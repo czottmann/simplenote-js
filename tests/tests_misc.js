@@ -21,7 +21,7 @@ module( "Miscellaneous", {
 
 
 test( "should report its version", function() {
-  ok( /^\d+\.\d+$/.test( this.SN._version ) );
+  ok( /^\d+\.\d+$/.test( this.SN._VERSION ) );
 });
 
 

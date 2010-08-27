@@ -61,13 +61,13 @@ function SimpleNote() {
   /**
   * The simplenote-js version number.
   *
-  * @property   _VERSION
+  * @property   _version
   * @type       String
   * @final
   * @private
   */
   
-  _VERSION = "0.6",
+  _version = "0.6",
   
   
   /**
@@ -1043,24 +1043,21 @@ function SimpleNote() {
   *
   * @property   _version
   * @type       String
+  * @final
   */
   
-  this._version = ( function() {
-    return _VERSION;
-  }() );
+  this._VERSION = _version;
   
-  
+
+  /*
   this.debug = {
     showToken: function() {
       return $.param({
         auth: _token,
         email: _email
       });
-    },
-
-    unsetEmail: function() {
-      _email = "";
     }
   };
+  */
   
 }
