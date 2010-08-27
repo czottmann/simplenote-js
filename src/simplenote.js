@@ -240,6 +240,68 @@ function SimpleNote() {
  
 
   /**
+  * Proxy method abstracting most YQL calls.
+  *
+  * @method     _queryYQL
+  * @param      caller {String} Name of the calling method.  Used for log
+  *             output.
+  * @param      query {String} The YQL query.
+  * @param      cbSuccess {Function} The on-success callback.
+  * @param      cbError {Function} The on-error callback.
+  * @param      context {Object} The context of the callbacks mentioned above.
+  * @private
+  */
+  
+  function _queryYQL( caller, query, cbSuccess, cbError, context ) {
+    $.ajax({
+      url: _getYQLURL( query ),
+      context: context,
+      success: function( data, status, req ) {
+        var yqlStatus,
+          yqlStatusCode,
+          res;
+        
+        if ( !data || !data.query || !data.query.results || !data.query.results.result ) {
+          log( caller + " error #1", data );
+          cbError( "yql_error" );
+          return;
+        }
+        
+        yqlStatus = data.query.results.result.status;
+        
+        if ( yqlStatus !== "200" ) {
+          yqlStatusCode = _getErrorCode( yqlStatus );
+
+          if ( yqlStatus === "401" ) {
+            _clearCredentials();
+          }
+
+          log( caller + " error #2", yqlStatusCode, data );
+          cbError( yqlStatusCode );
+          return;
+        }
+
+        log( caller + " success", data );
+        
+        res = data.query.results.result;
+        
+        if ( typeof res.response === "string" ) {
+          res.response = /^[\[\{]/.test( res.response ) ? $.parseJSON( res.response ) : res.response;
+        }
+
+        cbSuccess( res );
+      },
+      error: function( req, status, error ) {
+        log( caller + " error #3", req, status, error );
+        cbError( "unknown" );
+      },
+      dataType: "jsonp",
+      scriptCharset: "utf-8"
+    });
+  }
+  
+  
+  /**
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
@@ -289,112 +351,20 @@ function SimpleNote() {
     
     log( "_authenticate", query );
     
-    $.ajax({
-      url: _getYQLURL( query ),
-      context: this,
-      success: function( data, status, req ) {
-        var yqlStatus,
-          yqlStatusCode;
-        
-        if ( !data || !data.query || !data.query.results || !data.query.results.result ) {
-          log( "_authenticate error #1", data );
-          _clearCredentials();
-          config.error( "yql_error" );
-          return;
-        }
-        
-        yqlStatus = data.query.results.result.status;
-        
-        if ( yqlStatus !== "200" ) {
-          yqlStatusCode = _getErrorCode( yqlStatus );
-
-          if ( yqlStatus === "401" ) {
-            _clearCredentials();
-          }
-
-          log( "_authenticate error #2", yqlStatusCode, data );
-          config.error( yqlStatusCode );
-          return;
-        }
-
-        log( "_authenticate success", data );
-        _email = config.email;
-        _token = $.trim( data.query.results.result.response );
-
-        config.success();
-      },
-      error: function( req, status, error ) {
-        log( "_authenticate error #3", req, status, error );
-
-        _clearCredentials();
-        config.error( "unknown" );
-      },
-      dataType: "jsonp",
-      scriptCharset: "utf-8"
-    });
+    
+    function __cbSuccess( result ) {
+      _email = config.email;
+      _token = $.trim( result.response );
+      config.success();
+    }
+    
+    function __cbError( code ) {
+      _clearCredentials();
+      config.error( code );
+    }
+    
+    _queryYQL( "_authenticate", query, __cbSuccess, __cbError, this );
   }  // _authenticate
-  
-  
-  /**
-  * Proxy method abstracting most YQL calls.
-  *
-  * @method     _makeYQLCall
-  * @param      caller {String} Name of the calling method.  Used for log
-  *             output.
-  * @param      query {String} The YQL query.
-  * @param      cbSuccess {Function} The on-success callback.
-  * @param      cbError {Function} The on-error callback.
-  * @param      context {Object} The context of the callbacks mentioned above.
-  * @private
-  */
-  
-  function _makeYQLCall( caller, query, cbSuccess, cbError, context ) {
-    $.ajax({
-      url: _getYQLURL( query ),
-      context: context,
-      success: function( data, status, req ) {
-        var yqlStatus,
-          yqlStatusCode,
-          res;
-        
-        if ( !data || !data.query || !data.query.results || !data.query.results.result ) {
-          log( caller + " error #1", data );
-          cbError( "yql_error" );
-          return;
-        }
-        
-        yqlStatus = data.query.results.result.status;
-        
-        if ( yqlStatus !== "200" ) {
-          yqlStatusCode = _getErrorCode( yqlStatus );
-
-          if ( yqlStatus === "401" ) {
-            _clearCredentials();
-          }
-
-          log( caller + " error #2", yqlStatusCode, data );
-          cbError( yqlStatusCode );
-          return;
-        }
-
-        log( caller + " success", data );
-        
-        res = data.query.results.result;
-        
-        if ( typeof res.response === "string" ) {
-          res.response = /^[\[\{]/.test( res.response ) ? $.parseJSON( res.response ) : res.response;
-        }
-
-        cbSuccess( res );
-      },
-      error: function( req, status, error ) {
-        log( caller + " error #3", req, status, error );
-        cbError( "unknown" );
-      },
-      dataType: "jsonp",
-      scriptCharset: "utf-8"
-    });
-  }
   
   
   /**
@@ -467,7 +437,7 @@ function SimpleNote() {
       config.success( result.response );
     }
     
-    _makeYQLCall( "_retrieveIndex", query, __cbSuccess, config.error, this );
+    _queryYQL( "_retrieveIndex", query, __cbSuccess, config.error, this );
   }  // _retrieveIndex
 
 
@@ -556,7 +526,7 @@ function SimpleNote() {
       config.success( hash );
     }
     
-    _makeYQLCall( "_searchNotes", query, __cbSuccess, config.error, this );
+    _queryYQL( "_searchNotes", query, __cbSuccess, config.error, this );
   }
   
   
@@ -619,7 +589,7 @@ function SimpleNote() {
       });
     }
     
-    _makeYQLCall( "_retrieveNote", query, __cbSuccess, config.error, this );
+    _queryYQL( "_retrieveNote", query, __cbSuccess, config.error, this );
   }  // _retrieveNote
 
 
@@ -670,7 +640,7 @@ function SimpleNote() {
       config.success( $.trim( result.response ) );
     }
     
-    _makeYQLCall( "_createNote", query, __cbSuccess, config.error, this );
+    _queryYQL( "_createNote", query, __cbSuccess, config.error, this );
   }  // _createNote
 
 
@@ -726,7 +696,7 @@ function SimpleNote() {
       config.success( $.trim( result.response ) );
     }
     
-    _makeYQLCall( "_updateNote", query, __cbSuccess, config.error, this );
+    _queryYQL( "_updateNote", query, __cbSuccess, config.error, this );
   }  // _updateNote
 
   
@@ -784,7 +754,7 @@ function SimpleNote() {
       config.success( $.trim( result.response ) );
     }
     
-    _makeYQLCall( "_deleteNote", query, __cbSuccess, config.error, this );
+    _queryYQL( "_deleteNote", query, __cbSuccess, config.error, this );
   }  // _deleteNote
 
 
