@@ -15,13 +15,13 @@ module( "Miscellaneous", {
   setup: function() {
     this.SN = new SimpleNote();
     this.SN.enableDebug( true );
-    this.originalTableURL = "http://github.com/carlo/simplenote-js/blob/production/src/yql_simplenote.xml";
+    this.originalTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml";
   }
 });
 
 
 test( "should report its version", function() {
-  ok( /^\d+\.\d+$/.test( this.SN.VERSION ) );
+  ok( /^\d+\.\d+(\.\d+)?$/.test( this.SN.VERSION ) );
 });
 
 

@@ -111,11 +111,11 @@ function SimpleNote() {
   *
   * @property   _yqlTableURL
   * @type       String
-  * @default    http://github.com/carlo/simplenote-js/blob/production/src/yql_simplenote.xml
+  * @default    http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml
   * @private
   */
   
-  _yqlTableURL = "http://github.com/carlo/simplenote-js/blob/production/src/yql_simplenote.xml",
+  _yqlTableURL = "http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml",
   
   
   /**
