@@ -975,7 +975,6 @@ function SimpleNote() {
   * can tell `SimpleNote` to use it by setting the new URL with this method.
   *
   * @method     setOpenDataTable
-  * @return     {String} Open Data Table URL.
   */
   
   this.setOpenDataTable = function( url ) {
