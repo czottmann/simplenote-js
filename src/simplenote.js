@@ -1010,12 +1010,12 @@ function SimpleNote() {
   /**
   * Returns the simplenote-js version number.
   *
-  * @property   _VERSION
+  * @property   VERSION
   * @type       String
   * @final
   */
   
-  this._VERSION = _version;
+  this.VERSION = _version;
   
 
   /*
