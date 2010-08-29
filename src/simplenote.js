@@ -795,14 +795,14 @@ function SimpleNote() {
   * notes may be marked `deleted`; these notes will be removed permanently
   * the next time the client synchronizes with the server.
   *
-  * Throws an exception if one of the arguments is missing or empty.
-  *
   * The method expects a configuration object with the following keys:
   *
   * * `success`: callback function to be called on success; the callback will
   *    be passed the array containing the notes index
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
+  *
+  * Throws an exception if one of the arguments is missing or empty.
   *
   * @method     retrieveIndex
   * @param      config {Object} 
@@ -854,8 +854,6 @@ function SimpleNote() {
   *       deleted: false
   *     }  
   *
-  * Throws an exception if one of the arguments is missing or empty.
-  *
   * Expects a configuration object with the following keys:
   *
   * * `key`: the note ID
@@ -863,6 +861,8 @@ function SimpleNote() {
   *    be passed the note hash
   * * `error`: callback function to be called on failure, is passed a clear
   *    text error string.
+  *
+  * Throws an exception if one of the arguments is missing or empty.
   *
   * @method     retrieveNote
   * @param      config {Object} 
