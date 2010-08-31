@@ -44,7 +44,7 @@ production_docs:
 	@if [[ "`git branch | grep '*' | sed 's/^\* //'`" == "gh-pages" ]]; then \
 	  echo "Unstaging and removing unwanted paths from the index...\n"; \
 	  git rm -r --cached --ignore-unmatch tests src docs; \
-	  find . -type f -depth 1 \( -not -name "*.js" \) -exec git rm --ignore-unmatch --cached "{}" \; ; \
+	  find . -type f -depth 1 -not \( -name "*.js" -or -name "Makefile" \) -exec git rm --ignore-unmatch --cached "{}" \; ; \
 	  echo "Generating docs...\n"; \
 	  make docs; \
 	  echo "Documentation generated.\n"; \
