@@ -9,8 +9,8 @@ VERSION=`cat ./VERSION`
 
 
 docs:
-	@$(YUIDOC_ROOT)/bin/yuidoc.py $(JS_SRC) -p $(YUIDOC_TMP)_parser \
-	  -o $(DOCS_FOLDER) -t $(YUIDOC_ROOT)/template -v "`cat ./VERSION`" \
+	$(YUIDOC_ROOT)/bin/yuidoc.py $(JS_SRC) -p $(YUIDOC_TMP)_parser \
+	  -o $(DOCS_FOLDER) -t ../yuidoc-theme-dana -v "`cat ./VERSION`" \
 	  -m "JS SimpleNote API wrapper" -u "http://github.com/carlo/simplenote-js" \
 	  -C "Carlo Zottmann, carlo@zottmann.org." -s
 	@rm -rf $(YUIDOC_TMP) $(YUIDOC_TMP)_parser
