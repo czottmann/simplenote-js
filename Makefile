@@ -43,10 +43,11 @@ production_docs:
 	@git merge production
 	@if [[ "`git branch | grep '*' | sed 's/^\* //'`" == "gh-pages" ]]; then \
 	  echo "Unstaging and removing unwanted paths from the index...\n"; \
-	  git rm -r --cached --ignore-unmatch tests src docs; \
+	  git rm -r --cached --ignore-unmatch tests docs; \
 	  find . -type f -depth 1 -not \( -name "*.js" -or -name "Makefile" \) -exec git rm --ignore-unmatch --cached "{}" \; ; \
 	  echo "Generating docs...\n"; \
 	  make docs; \
+	  git rm -r --cached --ignore-unmatch src; \
 	  echo "Documentation generated.\n"; \
 	  echo "Committing changes...\n"; \
 	  git add --ignore-errors docs index.html; \
