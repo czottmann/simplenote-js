@@ -163,12 +163,14 @@ Deleting a note:
 
 ## Documentation
 
+The simplenote-js API documentation is included in this repository and the
+related [download packages](http://github.com/carlo/simplenote-js/downloads).
+It's been generated using YUIDoc (run `make docs` in the repo's root folder);
+the documentation for the current stable version is available online
+[here](http://carlo.github.com/simplenote-js/docs/).
+
 The SimpleNote API documentation is available from the
 [SimpleNote API Google Groups page](http://groups.google.com/group/simplenote-api).
-
-The simplenote-js API documentation can be generated locally with YUIDoc (run
-`make docs` in the repo's root folder); the latest version is available online
-[here](http://carlo.github.com/simplenote-js/docs/).
 
 
 ## Tests
