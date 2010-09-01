@@ -305,20 +305,13 @@ function SimpleNote() {
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `email`: SimpleNote account email address
-  * * `password`: SimpleNote account password
-  * * `success`: callback function to be called on successful authentication
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
-  * Both `success` and `error` are strictly speaking optional; omitting them
-  * might be pointless, tho.
-  *
   * @method     _authenticate
-  * @param      config {Object} SimpleNote account email address, password,
-  *             callbacks
+  * @param      config.email {String} SimpleNote account email address
+  * @param      config.password {String} SimpleNote account password
+  * @param      config.success {Function} callback function to be called on
+  *             successful authentication (optional)
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a plain text error string (optional)
   * @private
   */
   
@@ -394,13 +387,6 @@ function SimpleNote() {
   *
   * Throws an exception if one of the arguments is missing or empty.
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * The index will be returned as an array containing hashes.  The hashes
   * contain the following keys:
   *
@@ -409,7 +395,12 @@ function SimpleNote() {
   * * `modify`: a string containing the last-modified date
   *
   * @method     _retrieveIndex
-  * @param      config {Object} 
+  * @method     retrieveIndex
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the array containing the
+  *             notes index
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a plain text error string
   * @private
   */
   
@@ -451,18 +442,16 @@ function SimpleNote() {
   * Each note is represented as an object containing two keys, `key` (the note
   * ID) and `body` (the note string).
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `query`: search string
-  * * `maxResults` (optional): max number of results (default: 10)
-  * * `offset` (optional): index offset
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     _searchNotes
-  * @param      config {Object} 
+  * @param      config.query {String} search string
+  * @param      config.maxResults {Int} (optional): max number of results
+  *             (default: 10)
+  * @param      config.offset {Int} (optional) index offset
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the array containing the
+  *             notes index
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   * @private
   */
 
@@ -542,16 +531,12 @@ function SimpleNote() {
   *
   * Throws an exception if one of the arguments is missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the note ID
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note hash
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     _retrieveNote
-  * @param      config {Object} 
+  * @param      config.key {String} the note ID
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note hash
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   * @private
   */
   
@@ -596,16 +581,12 @@ function SimpleNote() {
   * Creates a new note.  Returns the new note ID.  Throws an exception if one
   * of the arguments is missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `body`: a string containing the note body
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     _createNote
-  * @param      config {Object} 
+  * @param      config.body {String} the note body
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   * @private
   */
   
@@ -647,17 +628,13 @@ function SimpleNote() {
   * Updates an existing note.  Returns the note ID on success.  Throws an
   * exception if one of the arguments is missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the ID of the note to update
-  * * `body`: a string containing the note body
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     _updateNote
-  * @param      config {Object} 
+  * @param      config.key {String} the ID of the note to update
+  * @param      config.body {String} the note body
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   * @private
   */
   
@@ -703,19 +680,15 @@ function SimpleNote() {
   * Deletes an existing note.  Throws an exception if one of the arguments is
   * missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the ID of the note to update
-  * * `permanently` (optional): set to `true` if you want to not only mark the
-  *    note as deleted on the server but to delete it right away (see SN API
-  *    docs)
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     _deleteNote
-  * @param      config {Object} 
+  * @param      config.key {String} the ID of the note to delete
+  * @param      config.permanently {Boolean} set to `true` if you want to not
+  *             only mark the note as deleted on the server but to delete it
+  *             right away (see SN API docs)
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   * @private
   */
   
@@ -768,20 +741,13 @@ function SimpleNote() {
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `email`: SimpleNote account email address
-  * * `password`: SimpleNote account password
-  * * `success`: callback function to be called on successful authentication
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
-  * Both `success` and `error` are strictly speaking optional; omitting them
-  * might be pointless, tho.
-  *
   * @method     auth
-  * @param      config {Object} SimpleNote account email address, password,
-  *             callbacks
+  * @param      config.email {String} SimpleNote account email address
+  * @param      config.password {String} SimpleNote account password
+  * @param      config.success {Function} callback function to be called on
+  *             successful authentication (optional)
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a plain text error string (optional)
   */
   
   this.auth = function( config ) {
@@ -795,17 +761,14 @@ function SimpleNote() {
   * notes may be marked `deleted`; these notes will be removed permanently
   * the next time the client synchronizes with the server.
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * Throws an exception if one of the arguments is missing or empty.
   *
   * @method     retrieveIndex
-  * @param      config {Object} 
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the array containing the
+  *             notes index
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a plain text error string
   */
 
   this.retrieveIndex = function( obj ) {
@@ -824,18 +787,16 @@ function SimpleNote() {
   * Each note is represented as an object containing two keys, `key` (the note
   * ID) and `body` (the note string).
   *
-  * The method expects a configuration object with the following keys:
-  *
-  * * `query`: search string
-  * * `maxResults` (optional): max number of results (default: 10)
-  * * `offset` (optional): index offset
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the array containing the notes index
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     searchNotes
-  * @param      config {Object} 
+  * @param      config.query {String} search string
+  * @param      config.maxResults {Int} (optional): max number of results
+  *             (default: 10)
+  * @param      config.offset {Int} (optional) index offset
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the array containing the
+  *             notes index
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   */
 
   this.searchNotes = function( obj ) {
@@ -854,18 +815,14 @@ function SimpleNote() {
   *       deleted: false
   *     }  
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the note ID
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note hash
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * Throws an exception if one of the arguments is missing or empty.
   *
   * @method     retrieveNote
-  * @param      config {Object} 
+  * @param      config.key {String} the note ID
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note hash
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   */
 
   this.retrieveNote = function( obj ) {
@@ -877,16 +834,12 @@ function SimpleNote() {
   * Creates a new note.  Returns the new note ID.  Throws an exception if one
   * of the arguments is missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `body`: a string containing the note body
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     createNote
-  * @param      config {Object} 
+  * @param      config.body {String} the note body
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   */
   
   this.createNote = function( obj ) {
@@ -898,17 +851,13 @@ function SimpleNote() {
   * Updates an existing note.  Returns the note ID on success.  Throws an
   * exception if one of the arguments is missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the ID of the note to update
-  * * `body`: a string containing the note body
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     updateNote
-  * @param      config {Object} 
+  * @param      config.key {String} the ID of the note to update
+  * @param      config.body {String} the note body
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   */
   
   this.updateNote = function( obj ) {
@@ -920,19 +869,15 @@ function SimpleNote() {
   * Deletes an existing note.  Throws an exception if one of the arguments is
   * missing or empty.
   *
-  * Expects a configuration object with the following keys:
-  *
-  * * `key`: the ID of the note to update
-  * * `permanently` (optional): set to `true` if you want to not only mark the
-  *    note as deleted on the server but to delete it right away (see SN API
-  *    docs)
-  * * `success`: callback function to be called on success; the callback will
-  *    be passed the note ID string
-  * * `error`: callback function to be called on failure, is passed a clear
-  *    text error string.
-  *
   * @method     deleteNote
-  * @param      config {Object} 
+  * @param      config.key {String} the ID of the note to delete
+  * @param      config.permanently {Boolean} set to `true` if you want to not
+  *             only mark the note as deleted on the server but to delete it
+  *             right away (see SN API docs)
+  * @param      config.success {Function} callback function to be called on
+  *             success; the callback will be passed the note ID string
+  * @param      config.error {Function} callback function to be called on
+  *             failure, is passed a clear text error string.
   */
   
   this.deleteNote = function( obj ) {
