@@ -302,6 +302,35 @@ function SimpleNote() {
   
   
   /**
+  * Parses a SN-supplied timestamp and returns a `Date` object.
+  *
+  * @method     _parseTimestamp
+  * @param      timestamp {String} 
+  * @returns    {Date}
+  * @private
+  */
+  
+  function _parseTimestamp( string ) {
+    if ( !( /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{6}$/.test( string ) ) ) {
+      throw "ArgumentError: string must be in the correct form (for example, '2008-12-18 04:04:20.554442')";
+    }
+    
+    var seg = string.split( /[^\d]/g ),
+      d = new Date();
+    
+    d.setUTCFullYear( seg[ 0 ] );
+    d.setUTCMonth( seg[ 1 ] - 1 );
+    d.setUTCDate( seg[ 2 ] );
+    d.setUTCHours( seg[ 3 ] );
+    d.setUTCMinutes( seg[ 4 ] );
+    d.setUTCSeconds( seg[ 5 ] );
+    d.setUTCMilliseconds( seg[ 6 ].substr( 0, 3 ) );
+
+    return d;
+  }
+  
+  
+  /**
   * Authenticates the client.  The request is made asynchronously via YQL.
   * Throws an exception if one of the arguments is missing or empty.
   *
@@ -424,6 +453,13 @@ function SimpleNote() {
     log( "_retrieveIndex", query );
     
     function __cbSuccess( result ) {
+      var res = result.response;
+      
+      $.each( res, function( i, note ) {
+        note.modify = _parseTimestamp( note.modify );
+        res[ i ] = note;
+      });
+      
       config.success( result.response );
     }
     
@@ -519,13 +555,14 @@ function SimpleNote() {
   
   
   /**
-  * Retrieves and returns a single note as a hash in the following form:
+  * Retrieves and returns a single note to the supplied callback function as a
+  * hash in the following form:
   *
   *     {
   *       body: "my example note",
   *       key: "agtzaW1wbG0LCxIETm90ZRjoBAw",
-  *       modifydate: "2008-12-18 04:04:20.554442",
-  *       createdate: "2008-12-18 04:04:20.554442",
+  *       modifydate: Sat Aug 28 2010 13:24:35 GMT+0200 (CEST),
+  *       createdate: Sat Aug 28 2010 13:24:32 GMT+0200 (CEST),
   *       deleted: false
   *     }  
   *
@@ -567,8 +604,8 @@ function SimpleNote() {
       config.success({
         body: $.trim( result.response ),
         key: result.headers[ "note-key" ],
-        modifydate: result.headers[ "note-modifydate" ],
-        createdate: result.headers[ "note-createdate" ],
+        modifydate: _parseTimestamp( result.headers[ "note-modifydate" ] ),
+        createdate: _parseTimestamp( result.headers[ "note-createdate" ] ),
         deleted: ( result.headers[ "note-deleted" ].toLowerCase() === "true" )
       });
     }

@@ -82,12 +82,12 @@ Getting the notes index:
         // >>   {
         // >>     key: "[SimpleNote-internal ID string]",
         // >>     deleted: false,
-        // >>     modify: "2010-08-27 12:47:11.259777"
+        // >>     modify: [Date object]
         // >>   },
         // >>   {
         // >>     key: "[another SimpleNote-internal ID string]",
         // >>     deleted: true,
-        // >>     modify: "2010-07-27 05:12:09.158457"
+        // >>     modify: [Date object]
         // >>   },
         // >>   …
         // >> ]
@@ -136,8 +136,8 @@ Retrieving a note:
         // >> {
         // >>   body: "my example note",
         // >>   key: "[SimpleNote-internal ID string]",
-        // >>   modifydate: "2008-12-18 04:04:20.554442",
-        // >>   createdate: "2008-12-18 04:03:31.123456",
+        // >>   modifydate: [Date object],
+        // >>   createdate: [Date object],
         // >>   deleted: false
         // >> }
       },
