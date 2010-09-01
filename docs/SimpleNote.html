@@ -1,0 +1,2102 @@
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width; initial-scale=1.0">
+
+  <title>
+    API: simplenote-js
+    
+      &rarr; SimpleNote class
+    
+    
+  </title>
+
+  <link rel="stylesheet" type="text/css" href="css/960fluid.min.css">
+  <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.4.custom.css">
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+  <link rel="stylesheet" type="text/css" href="css/navigation.css">
+  <link rel="stylesheet" type="text/css" href="css/content.css">
+  <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono">
+  
+	<!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+  <div id="container" class="container_16">
+
+    <!-- HEADER -->
+    <header>
+      <div id="hd" class="grid_10">
+        <h1>
+          <a href="http://github.com/carlo/simplenote-js" title="JS SimpleNote API wrapper">JS SimpleNote API wrapper</a> v1.0.1
+        </h1>
+      </div> <!--! end of #hd -->
+    </header>
+
+    <div id="filters" class="grid_6">
+      <form action="#" method="get" id="show-toggles">
+        <fieldset>
+          <legend>Display Filters</legend>
+          <span class="classopts">
+            <input type="checkbox" name="show_private" id="show_private">
+            <label for="show_private">Show private</label>
+          </span>
+          <span class="classopts">
+            <input type="checkbox" name="show_protected" id="show_protected">
+            <label for="show_protected">Show protected</label>
+          </span>
+          <span class="classopts">
+            <input type="checkbox" name="show_deprecated" id="show_deprecated">
+            <label for="show_deprecated">Show deprecated</label>
+          </span>
+        </fieldset>
+      </form>
+
+    </div> <!--! end of #hd -->
+
+
+    <!-- SUB-HEADER w/ BREADCRUMBS -->
+
+    <div id="sub-hd" class="grid_16">
+      <div id="breadcrumbs">
+        <form id="search-form" method="get" action="#">
+          <label for="search">Search:</label>
+          <input type="text" id="search" title="Find documentation">
+        </form>
+
+        <a href="./index.html" title="JS SimpleNote API wrapper">JS SimpleNote API wrapper</a>
+          &rarr; module <a href="./module_simplenote-js.html" title="simplenote-js">simplenote-js</a>
+          
+            &rarr; class SimpleNote
+          
+          
+      </div>
+    </div> <!--! end of #sub-hd -->
+    
+    <div class="clear"></div>
+    
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav>
+      <div id="navigation" class="grid_4">
+        <div>
+
+            <div id="moduleList" class="module">
+              <h4>Modules</h4>
+              <ul>
+                  <li  class="selected" >
+                    <a href="module_simplenote-js.html">simplenote-js</a>
+                  </li>
+              </ul>
+            </div>
+
+            <div id="classList" class="module">
+              <h4>Classes</h4>
+              <ul>
+                  <li  class="selected" >
+                    <a href="SimpleNote.html">SimpleNote</a>
+                  </li>
+              </ul>
+            </div>
+
+            <div id="fileList" class="module">
+              <h4>Files</h4>
+              <ul>
+                  <li >
+                    <a href="simplenote.js.html">simplenote.js</a>
+                  </li>
+              </ul>
+            </div>
+
+            <div id="propertyList" class="module">
+              <h4>Properties</h4>
+              <ul>
+                  <li class="private ">
+                    <a href="#property__baseURL">_baseURL</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__debugEnabled">_debugEnabled</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__email">_email</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__token">_token</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__version">_version</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__yqlTableName">_yqlTableName</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#property__yqlTableURL">_yqlTableURL</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class=" ">
+                    <a href="#property_VERSION">VERSION</a>
+                  </li>
+              </ul>
+            </div>
+
+            <div id="methodsList" class="module">
+              <h4>Methods</h4>
+              <ul>
+                  <li class="private ">
+                    <a href="#method__authenticate">_authenticate</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__clearCredentials">_clearCredentials</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__createNote">_createNote</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__deleteNote">_deleteNote</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__getErrorCode">_getErrorCode</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__getYQLURL">_getYQLURL</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__isLoggedIn">_isLoggedIn</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__queryYQL">_queryYQL</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__retrieveIndex">_retrieveIndex</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__retrieveNote">_retrieveNote</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__searchNotes">_searchNotes</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__throwUnlessLoggedIn">_throwUnlessLoggedIn</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__updateNote">_updateNote</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class="private ">
+                    <a href="#method__validateRetrievalConfig">_validateRetrievalConfig</a>
+                      <span class="access-private">[priv]</span>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_auth">auth</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_createNote">createNote</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_deleteNote">deleteNote</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_enableDebug">enableDebug</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_getAuthDetails">getAuthDetails</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_getOpenDataTable">getOpenDataTable</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_isLoggedIn">isLoggedIn</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_retrieveIndex">retrieveIndex</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_retrieveNote">retrieveNote</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_searchNotes">searchNotes</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_setOpenDataTable">setOpenDataTable</a>
+                  </li>
+                  <li class=" ">
+                    <a href="#method_updateNote">updateNote</a>
+                  </li>
+              </ul>
+            </div>
+
+
+
+        </div>
+      </div>  <!-- end of #navigation -->
+    </nav>
+
+
+    <div id="content" class="grid_12">
+      
+
+      
+        <h2>
+          
+
+          
+
+          
+
+          class <strong>SimpleNote</strong>
+          
+        </h2>
+
+        <!-- class tree goes here -->
+
+
+
+        <div class="summary description">
+          SimpleNote API wrapper class.
+
+ Please note that the SimpleNote API expects everything to be UTF-8, and so
+ does simplenote-js.
+        </div>
+        
+
+
+
+        <div class="clear"></div>
+
+
+          <div class="section constructor" resource="#constructor">
+            <h3>Constructor</h3>
+            
+            <table>
+              <thead>
+                <tr>
+                  <th>
+                    Constructor
+                  </th>
+                  <th>
+                    Parameters
+                  </th>
+                  <th>
+                    Returns
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  
+                  <td class="names">
+                    <code>
+                      <span>SimpleNote</span>(
+                      
+                      )
+                    </code>
+                  </td>
+                  
+                  <td class="parameters">
+                  </td>
+                  
+                  <td class="returns">
+                  </td>
+                  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="section properties" resource="#properties">
+              <h3>Properties</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Properties
+                    </th>
+                    <th>
+                      Type
+                    </th>
+                    <th>
+                      Description
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                
+                    <tr class="private " resource="#property__baseURL">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__baseURL">_baseURL</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                          <span class="final">final</span>
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>Contains the base URL of the API.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__debugEnabled">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__debugEnabled">_debugEnabled</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          Boolean
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>Enables console output of debugging messages.</p>
+
+                            <p>
+                              <strong>Default value:</strong>
+                              <code>false</code>.
+                            </p>
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__email">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__email">_email</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>After a successful login, this variable holds the account email address
+ required for all subsequent API requests.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__token">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__token">_token</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>After a successful login, this variable holds the auth token required for
+ all subsequent API requests.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__version">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__version">_version</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                          <span class="final">final</span>
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>The simplenote-js version number.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__yqlTableName">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__yqlTableName">_yqlTableName</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                          <span class="final">final</span>
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>Contains the table name used in YQL query.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#property__yqlTableURL">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property__yqlTableURL">_yqlTableURL</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>Contains the OpenData table used for all YQL calls.</p>
+
+                            <p>
+                              <strong>Default value:</strong>
+                              <code>http://github.com/carlo/simplenote-js/raw/master/src/yql_simplenote.xml</code>.
+                            </p>
+                        </div>
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#property_VERSION">
+                  
+                      <td class="names">
+                        <code>
+                          <a name="property_VERSION">VERSION</a>
+                        </code>
+                      </td>
+
+                      <td class="type">
+                        <code>
+                          String
+                        </code>
+
+                        
+                        
+                        
+                          <span class="final">final</span>
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+                        <div>
+
+                          <p>Returns the simplenote-js version number.</p>
+
+                        </div>
+                      </td>
+
+                    </tr>
+              
+                </tbody>
+              </table>
+
+          </div>
+
+
+          <div class="section methods" resource="#methods">
+              <h3>Methods</h3>
+              <table>
+                <thead>
+                  <tr>
+                    <th>
+                      Methods
+                    </th>
+                    <th>
+                      Returns
+                    </th>
+                    <th>
+                      Description
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                    <tr class="private " resource="#method__authenticate">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__authenticate">_authenticate</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Authenticates the client.  The request is made asynchronously via YQL.
+ Throws an exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.email
+                                  &lt;String&gt;
+                                </code>
+                                <p>SimpleNote account email address</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.password
+                                  &lt;String&gt;
+                                </code>
+                                <p>SimpleNote account password</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             successful authentication (optional)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a plain text error string (optional)</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__clearCredentials">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__clearCredentials">_clearCredentials</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Deletes both <code>_email</code> and <code>_token</code> variables.</p>
+
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__createNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__createNote">_createNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Creates a new note.  Returns the new note ID.  Throws an exception if one
+ of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.body
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note body</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__deleteNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__deleteNote">_deleteNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Deletes an existing note.  Throws an exception if one of the arguments is
+ missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the ID of the note to delete</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.permanently
+                                  &lt;Boolean&gt;
+                                </code>
+                                <p>set to <code>true</code> if you want to not
+             only mark the note as deleted on the server but to delete it
+             right away (see SN API docs)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__getErrorCode">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__getErrorCode">_getErrorCode</a>(
+                          status
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns an error code for a passed HTTP status.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  status
+                                  &lt;String&gt;
+                                </code>
+                                <p>The HTTP status code returned by YQL.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__getYQLURL">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__getYQLURL">_getYQLURL</a>(
+                          query
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Accepts a YQL query and returns the related YQL URL.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  query
+                                  &lt;String&gt;
+                                </code>
+                                <p>YQL query</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__isLoggedIn">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__isLoggedIn">_isLoggedIn</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          Boolean
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns a boolean showing whether the user is currently logged in or not.</p>
+
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__queryYQL">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__queryYQL">_queryYQL</a>(
+                          caller, query, cbSuccess, cbError, context
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Proxy method abstracting most YQL calls.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  caller
+                                  &lt;String&gt;
+                                </code>
+                                <p>Name of the calling method.  Used for log
+             output.</p>
+                              </li>
+                              <li>
+                                <code>
+                                  query
+                                  &lt;String&gt;
+                                </code>
+                                <p>The YQL query.</p>
+                              </li>
+                              <li>
+                                <code>
+                                  cbSuccess
+                                  &lt;Function&gt;
+                                </code>
+                                <p>The on-success callback.</p>
+                              </li>
+                              <li>
+                                <code>
+                                  cbError
+                                  &lt;Function&gt;
+                                </code>
+                                <p>The on-error callback.</p>
+                              </li>
+                              <li>
+                                <code>
+                                  context
+                                  &lt;Object&gt;
+                                </code>
+                                <p>The context of the callbacks mentioned above.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__retrieveIndex">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__retrieveIndex">_retrieveIndex</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns an index of all notes.  This method will return a JSON object with
+ three main properties for each note: <code>key</code>, <code>modify</code>, and <code>deleted</code>.  Some
+ notes may be marked <code>deleted</code>; these notes will be removed permanently
+ the next time the client synchronizes with the server.</p>
+<p>Throws an exception if one of the arguments is missing or empty.</p>
+<p>The index will be returned as an array containing hashes.  The hashes
+ contain the following keys:</p>
+<ul>
+<li><code>deleted</code>: true | false</li>
+<li><code>key</code>: the note ID</li>
+<li><code>modify</code>: a string containing the last-modified date</li>
+</ul>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the array containing the
+             notes index</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a plain text error string</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__retrieveNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__retrieveNote">_retrieveNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Retrieves and returns a single note as a hash in the following form:</p>
+<pre><code> {
+   body: "my example note",
+   key: "agtzaW1wbG0LCxIETm90ZRjoBAw",
+   modifydate: "2008-12-18 04:04:20.554442",
+   createdate: "2008-12-18 04:04:20.554442",
+   deleted: false
+ }
+</code></pre>
+<p>Throws an exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note ID</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note hash</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__searchNotes">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__searchNotes">_searchNotes</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns notes containing a particular term.  Throws an exception if one of
+ the arguments is missing or empty.</p>
+<p>This method will return a JSON object with two keys, <code>notes</code> (containing
+ an array with found notes) and <code>totalRecords</code> (showing the total number of
+ search results).</p>
+<p>Each note is represented as an object containing two keys, <code>key</code> (the note
+ ID) and <code>body</code> (the note string).</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.query
+                                  &lt;String&gt;
+                                </code>
+                                <p>search string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.maxResults
+                                  &lt;Int&gt;
+                                </code>
+                                <p>(optional): max number of results
+             (default: 10)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.offset
+                                  &lt;Int&gt;
+                                </code>
+                                <p>(optional) index offset</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the array containing the
+             notes index</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__throwUnlessLoggedIn">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__throwUnlessLoggedIn">_throwUnlessLoggedIn</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Throws an exception if either the internal email or token aren't set
+ (which means the user's not logged in).</p>
+
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__updateNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__updateNote">_updateNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Updates an existing note.  Returns the note ID on success.  Throws an
+ exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the ID of the note to update</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.body
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note body</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class="private " resource="#method__validateRetrievalConfig">
+
+                      <td class="names">
+                        <code>
+                          <a name="method__validateRetrievalConfig">_validateRetrievalConfig</a>(
+                          obj
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                          <span class="access-private">private</span>
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Checks if the passed argument is an object and has <code>error</code> and <code>success</code>
+ keys which are functions.  Throws an <code>ArgumentError</code> exception on failure.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  obj
+                                  &lt;Object&gt;
+                                </code>
+                                <p>The object to validate.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_auth">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_auth">auth</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Authenticates the client.  The request is made asynchronously via YQL.
+ Throws an exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.email
+                                  &lt;String&gt;
+                                </code>
+                                <p>SimpleNote account email address</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.password
+                                  &lt;String&gt;
+                                </code>
+                                <p>SimpleNote account password</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             successful authentication (optional)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a plain text error string (optional)</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_createNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_createNote">createNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Creates a new note.  Returns the new note ID.  Throws an exception if one
+ of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.body
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note body</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_deleteNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_deleteNote">deleteNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Deletes an existing note.  Throws an exception if one of the arguments is
+ missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the ID of the note to delete</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.permanently
+                                  &lt;Boolean&gt;
+                                </code>
+                                <p>set to <code>true</code> if you want to not
+             only mark the note as deleted on the server but to delete it
+             right away (see SN API docs)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_enableDebug">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_enableDebug">enableDebug</a>(
+                          bool
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Enables console output of debugging messages.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  bool
+                                  &lt;Boolean&gt;
+                                </code>
+                                <p>Enable/disable debugging.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_getAuthDetails">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_getAuthDetails">getAuthDetails</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          Object
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns auth details, i.e. an object containing the current email address
+ and auth token returned by the API after a successful login.</p>
+
+
+
+                          <p>Returns:</p>
+                          <ul>
+                            <li>
+                                <code>
+                                  &lt;Object&gt;
+                                </code>
+                              <p>Auth info.</p>
+                            </li>
+                          </ul>
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_getOpenDataTable">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_getOpenDataTable">getOpenDataTable</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          String
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns the Open Data table used in all YQL requests.</p>
+
+
+
+                          <p>Returns:</p>
+                          <ul>
+                            <li>
+                                <code>
+                                  &lt;String&gt;
+                                </code>
+                              <p>Open Data Table URL.</p>
+                            </li>
+                          </ul>
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_isLoggedIn">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_isLoggedIn">isLoggedIn</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          Boolean
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns a boolean showing whether the user is currently logged in or not.</p>
+
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_retrieveIndex">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_retrieveIndex">retrieveIndex</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns an index of all notes.  This method will return a JSON object with
+ three main properties for each note: <code>key</code>, <code>modify</code>, and <code>deleted</code>.  Some
+ notes may be marked <code>deleted</code>; these notes will be removed permanently
+ the next time the client synchronizes with the server.</p>
+<p>Throws an exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the array containing the
+             notes index</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a plain text error string</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_retrieveNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_retrieveNote">retrieveNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Retrieves and returns a single note as a hash in the following form:</p>
+<pre><code> {
+   body: "my example note",
+   key: "agtzaW1wbG0LCxIETm90ZRjoBAw",
+   modifydate: "2008-12-18 04:04:20.554442",
+   createdate: "2008-12-18 04:04:20.554442",
+   deleted: false
+ }
+</code></pre>
+<p>Throws an exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note ID</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note hash</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_searchNotes">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_searchNotes">searchNotes</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Returns notes containing a particular term.  Throws an exception if one of
+ the arguments is missing or empty.</p>
+<p>This method will return a JSON object with two keys, <code>notes</code> (containing
+ an array with found notes) and <code>totalRecords</code> (showing the total number of
+ search results).</p>
+<p>Each note is represented as an object containing two keys, <code>key</code> (the note
+ ID) and <code>body</code> (the note string).</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.query
+                                  &lt;String&gt;
+                                </code>
+                                <p>search string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.maxResults
+                                  &lt;Int&gt;
+                                </code>
+                                <p>(optional): max number of results
+             (default: 10)</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.offset
+                                  &lt;Int&gt;
+                                </code>
+                                <p>(optional) index offset</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the array containing the
+             notes index</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_setOpenDataTable">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_setOpenDataTable">setOpenDataTable</a>(
+                          
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Sets the Open Data table used in all YQL requests.  Usually, you'll want
+ to put the Open Data table XML file (see <code>yql_simplenote.xml</code>) on a server
+ controlled by you so you have full control over it.  If you do that, you
+ can tell <code>SimpleNote</code> to use it by setting the new URL with this method.</p>
+
+
+
+                      </td>
+
+                    </tr>
+                    <tr class=" " resource="#method_updateNote">
+
+                      <td class="names">
+                        <code>
+                          <a name="method_updateNote">updateNote</a>(
+                          config
+                          )
+                        </code>
+                      </td>
+
+                      <td class="returns">
+                        <code>
+                          void
+                        </code>
+
+                        
+                        
+                        
+                      </td>
+
+                      <td class="description">
+                        <a href="#top" class="top" title="Jump back to the top">↑</a>
+
+
+                        <p>Updates an existing note.  Returns the note ID on success.  Throws an
+ exception if one of the arguments is missing or empty.</p>
+
+                          <p>Parameters:</p>
+                          <ul>
+                              <li>
+                                <code>
+                                  config.key
+                                  &lt;String&gt;
+                                </code>
+                                <p>the ID of the note to update</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.body
+                                  &lt;String&gt;
+                                </code>
+                                <p>the note body</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.success
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             success; the callback will be passed the note ID string</p>
+                              </li>
+                              <li>
+                                <code>
+                                  config.error
+                                  &lt;Function&gt;
+                                </code>
+                                <p>callback function to be called on
+             failure, is passed a clear text error string.</p>
+                              </li>
+                          <ul>
+
+
+                      </td>
+
+                    </tr>
+
+                </tbody>
+              </table>
+
+
+
+          </div>
+
+
+
+
+
+
+    </div>
+
+
+    <div class="clear"></div>
+
+    
+    <footer>
+      <div id="footer" class="grid_16">
+        <p>
+          Copyright &copy; 2010 Carlo Zottmann, carlo@zottmann.org. All rights reserved.
+          &middot;
+          Docs generated using <a href="http://developer.yahoo.com/yui/yuidoc/">YUIDoc</a> sporting the <a href="http://github.com/carlo/yuidoc-theme-dana">Dana theme</a>.
+        </p>
+      </div> <!--! end of #footer -->
+    </footer>
+
+
+    <div class="clear"></div>
+
+  </div>
+
+  <!-- Javascript at the bottom for fast page loading -->
+  <script src="js/jquery-1.4.2.min.js" type="text/javascript"></script>
+  <script src="js/jquery-ui-1.8.4.custom.min.js" type="text/javascript"></script>
+  <script src="js/jquery.cookie.min.js" type="text/javascript"></script>
+  <script src="js/main.js" type="text/javascript"></script>
+  
+</body>
+</html>
