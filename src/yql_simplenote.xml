@@ -38,7 +38,7 @@
             snRequest = y.rest( "https://simple-note.appspot.com/api" + path + "?" + data );
             snData = snRequest
               .timeout( 5000 )
-              .accept( "text/plain, application/json" )
+              .accept( "text/plain" )
               .contentType( "application/x-www-form-urlencoded" )
               .get();
           }
