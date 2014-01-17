@@ -1,3 +1,5 @@
+**This project is no longer maintained.  Feel free to fork and take over.**
+
 # simplenote-js
 
 A JS wrapper for the SimpleNote API.  Routes all requests through
